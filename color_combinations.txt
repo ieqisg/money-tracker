@@ -1,0 +1,8 @@
+Purpose	Color
+Primary Background	#EDFFCC
+Primary Text	#3B5704
+Primary Button	#3B5704
+Button Text	#EDFFCC
+Accent / Highlights	#9DD241
+Borders	#C8E89A
+Hover State	#4D6E07
