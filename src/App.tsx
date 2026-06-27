@@ -1,11 +1,11 @@
-import Login from "./frontend/auth/Login/Login";
-import LandingPage from "./frontend/Landing";
-import { Routes, Route } from "react-router-dom";
+import LandingPage from "./frontend/pages/landing/Landing"
+import { Routes, Route } from "react-router-dom"
+import Auth from "./frontend/pages/auth/Auth"
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/auth" element={<Auth />} />
     </Routes>
   )
 }
