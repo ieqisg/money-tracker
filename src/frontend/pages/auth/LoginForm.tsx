@@ -9,7 +9,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { ShimmerButton } from "@/components/ui/shimmer-button"
-import type { LoginFormProps } from "@/frontend/types/authTypes"
+import type { LoginFormProps } from "@/types/authTypes"
 
 export default function LoginForm({ onRegister }: LoginFormProps) {
   return (
@@ -45,7 +45,7 @@ export default function LoginForm({ onRegister }: LoginFormProps) {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" required className="border-[#9dd241]" />
+                <Input id="password" type="password" required placeholder="••••••" className="border-[#9dd241]" />
                 <a href="#" className="ml-auto text-xs underline-offset-4 underline">
                   Forgot your password?
                 </a>

@@ -4,30 +4,30 @@ import RegisterForm from "./RegisterForm";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Auth() {
-  const [isRegister, setIsRegister] = useState(() => {
-    const savedAuth = localStorage.getItem('authChoice')
+  const [authChoice, setAuthChoice] = useState(() => {
+    const savedAuth = sessionStorage.getItem('isRegister')
     return savedAuth ? JSON.parse(savedAuth) : false
   })
 
 
 
   useEffect(() => {
-    localStorage.setItem('authChoice', JSON.stringify(isRegister))
-  }, [isRegister])
+    sessionStorage.setItem('isRegister', JSON.stringify(authChoice))
+  }, [authChoice])
 
   return (
     <div
-      className={`h-screen overflow-hidden md:grid transition-[grid-template-columns] duration-500 ease-in-out ${isRegister
+      className={`h-screen overflow-hidden md:grid transition-[grid-template-columns] duration-500 ease-in-out ${authChoice
         ? "md:grid-cols-[100%_0%]"
         : "md:grid-cols-[40%_60%] lg:grid-cols-[30%_70%]"
         }`}
     >
       <section
-        className={`relative flex justify-center h-full overflow-y-auto transition-colors duration-500 ease-in-out bg-[#3b5704] ${isRegister ? "items-start py-10 lg:py-14" : "items-center"
+        className={`relative flex justify-center h-full overflow-y-auto transition-colors duration-500 ease-in-out bg-[#3b5704] ${authChoice ? "items-start py-10 lg:py-14" : "items-center"
           }`}
       >
         <AnimatePresence mode="wait">
-          {isRegister ? (
+          {authChoice ? (
             <motion.div
               key="register"
               initial={{ x: 100, opacity: 0 }}
@@ -36,7 +36,7 @@ export default function Auth() {
               transition={{ duration: 0.4 }}
               className="w-full flex justify-center px-4"
             >
-              <RegisterForm onLogin={() => setIsRegister(false)} />
+              <RegisterForm onLogin={() => setAuthChoice(false)} />
             </motion.div>
           ) : (
             <motion.div
@@ -47,14 +47,14 @@ export default function Auth() {
               transition={{ duration: 0.4 }}
               className="w-full flex justify-center px-4"
             >
-              <LoginForm onRegister={() => setIsRegister(true)} />
+              <LoginForm onRegister={() => setAuthChoice(true)} />
             </motion.div>
           )}
         </AnimatePresence>
       </section>
 
       <aside
-        className={`hidden md:flex items-center justify-center p-6 bg-[#edffcc] overflow-hidden transition-opacity duration-300 ${isRegister ? "opacity-0 pointer-events-none" : "opacity-100"
+        className={`hidden md:flex items-center justify-center p-6 bg-[#edffcc] overflow-hidden transition-opacity duration-300 ${authChoice ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
       >
         <picture>
