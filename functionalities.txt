@@ -1,0 +1,4 @@
+add monthly income
+add expenses with category
+save the overall monthly income and expenses monthly and display it on chart
+

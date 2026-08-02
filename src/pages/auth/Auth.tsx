@@ -13,7 +13,10 @@ export default function Auth() {
 
   useEffect(() => {
     sessionStorage.setItem('isRegister', JSON.stringify(authChoice))
+
   }, [authChoice])
+
+
 
   return (
     <div

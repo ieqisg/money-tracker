@@ -14,30 +14,38 @@ import { ShimmerButton } from "@/components/ui/shimmer-button"
 import { isPasswordStrong } from "@/hooks/passwordValidator"
 import { isPasswordMatched } from "@/hooks/passwordValidator"
 import type { RegisterFormProps } from "@/types/authTypes"
-import type { RegisterUser } from "@/types/authTypes"
+import type { RegisterForm } from "@/types/authTypes"
+import { useAuth } from "@/context/authContext"
+import { error } from "better-auth/api"
 
 
 export default function RegisterForm({ onLogin }: RegisterFormProps) {
-  const [showPassword, setShowPassword] = useState(true)
+  const { register } = useAuth()
+  const [showPassword, setShowPassword] = useState(false)
   const [isPassStrong, setIsPassStrong] = useState<boolean | undefined>()
   const [isPassMatched, setIsPassMatched] = useState<boolean | undefined>()
 
-  const [formData, setFormData] = useState<RegisterUser>({
+  const [formData, setFormData] = useState<RegisterForm>({
     email: "",
     password: "",
     confirmPassword: "",
     username: "",
     jobTitle: "",
-    age: 0,
-    monthlyIncome: 0,
+    age: null,
+    monthlyIncome: null,
   })
-  const handleCreateAccount = (e: React.FormEvent) => {
+  const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault()
     sessionStorage.removeItem('authChoice');
     try {
       isPasswordStrong(formData.password) ? setIsPassStrong(undefined) : setIsPassStrong(false)
       isPasswordMatched(formData.password, formData.confirmPassword) ? setIsPassMatched(undefined) : setIsPassMatched(false)
-      console.log(isPassStrong, isPassMatched)
+      const user = await register(formData)
+      if (error) {
+        console.error(error)
+      }
+      console.log(user)
+
     } catch (error) {
       console.error(error)
     }
@@ -71,7 +79,7 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
                   type="email"
                   placeholder="Enter your email"
                   className="pl-10 h-9"
-                  value={formData.email}
+                  value={formData.email || ""}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
@@ -172,7 +180,7 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
                     type="number"
                     placeholder="Age"
                     className="pl-10 h-9"
-                    value={formData.age}
+                    value={formData.age ? formData.age : 0}
                     onChange={(e) => setFormData({ ...formData, age: Number(e.target.value) })}
                   />
                 </div>
@@ -187,7 +195,7 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
                     type="number"
                     placeholder="Income"
                     className="pl-10 h-9"
-                    value={formData.monthlyIncome}
+                    value={formData.monthlyIncome ? formData.monthlyIncome : 0}
                     onChange={(e) => setFormData({ ...formData, monthlyIncome: Number(e.target.value) })}
                   />
                 </div>
