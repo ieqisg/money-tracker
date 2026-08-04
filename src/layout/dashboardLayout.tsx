@@ -5,10 +5,10 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
 export default function DashboardLayout() {
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={true}>
       <AppSidebar />
       <main className="flex-1">
-        <SidebarTrigger />
+        <SidebarTrigger className="lg:hidden" />
         <Outlet />
       </main>
     </SidebarProvider>

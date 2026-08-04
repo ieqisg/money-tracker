@@ -30,7 +30,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <hr className="my-2 border-gray-300" />
       <SidebarContent >
-        <SidebarGroup className="my-4 gap-y-4">
+        <SidebarGroup className="gap-y-2">
           <SidebarMenuButton><LayoutDashboard />Dashboard</SidebarMenuButton>
           <SidebarMenuButton><BadgeDollarSign />Transactions</SidebarMenuButton>
           <SidebarMenuButton><CircleUser />Profile</SidebarMenuButton>
