@@ -33,8 +33,6 @@ export function AccountDropdown({ children }: AccountDropdownProps) {
             <h1 className="text-sm">Full name</h1>
             <p className="text-[11px] text-gray-500">email@com</p>
           </div>
-
-
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

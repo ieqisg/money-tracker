@@ -7,7 +7,7 @@ export default function DashboardLayout() {
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
-      <main className="flex-1">
+      <main className="flex-1 min-w-0 overflow-x-hidden">
         <SidebarTrigger className="lg:hidden" />
         <Outlet />
       </main>

@@ -13,7 +13,7 @@ export default function Dashboard() {
         <p className="text-xs text-muted-foreground">Get a complete overview of your financial activity</p>
       </div>
       <Separator className="my-4" />
-      <div className="flex   mb-2">
+      <div className="flex justify-end mb-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Charts<ChevronDown /></Button>
