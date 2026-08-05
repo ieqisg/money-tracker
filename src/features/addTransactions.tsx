@@ -29,7 +29,7 @@ export default function AddTransactions() {
       <div>
         {/*todo: Add logic to change drop down with respect to transType */}
         <h1>Category <span className="text-red-600">*</span></h1>
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button className="border-gray-400" variant="outline">Select a Category <ChevronDown /></Button>
           </DropdownMenuTrigger>

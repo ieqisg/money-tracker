@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus, SlidersHorizontal, SquarePen, Trash2 } from "lucide-react";
-import AddTransactions from "./addTransactions";
-
+import AddTransactions from "@/features/addTransactions";
+import FilterTransaction from "@/features/filterTransactions";
 
 export default function Transactions() {
   return (
@@ -11,7 +11,19 @@ export default function Transactions() {
       <div className="flex justify-end space-x-2 mb-2">
         <div className="flex flex-wrap gap-x-3">
           <input type="search" placeholder="Search..." className="border rounded-md placeholder:text-sm p-1" />
-          <Button variant="outline">Filter <SlidersHorizontal /> </Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button variant="outline">Filter <SlidersHorizontal /> </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Filter</DialogTitle>
+                <DialogDescription>Filter transactions by date, category, amount, or type</DialogDescription>
+              </DialogHeader>
+              <FilterTransaction />
+            </DialogContent>
+          </Dialog>
+
           <Dialog>
             <DialogTrigger>
               <Button variant="outline">Add Transactions <Plus /></Button>

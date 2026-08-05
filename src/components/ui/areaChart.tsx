@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { BanknoteArrowUp, BanknoteArrowDown, WalletCards } from "lucide-react"
 
 export const description = "An interactive area chart"
 
@@ -153,7 +154,7 @@ export function ChartAreaInteractive() {
   })
 
   return (
-    <Card className="pt-0">
+    <Card className="pt-0 ">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle>Area Chart - Interactive</CardTitle>
@@ -181,10 +182,11 @@ export function ChartAreaInteractive() {
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 md:grid md:grid-cols-4 gap-x-5">
+
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
+          className="aspect-auto h-[250px] col-span-3"
         >
           <AreaChart data={filteredData}>
             <defs>
@@ -259,6 +261,20 @@ export function ChartAreaInteractive() {
             <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
         </ChartContainer>
+        <div className="flex flex-col gap-y-5">
+          <div className="flex flex-col gap-y-1">
+            <p className="text-xs font-medium text-green-700 flex items-center gap-x-3">  <BanknoteArrowUp className="text-green-700" />Monthly Income</p>
+            <h1 className="text-2xl font-semibold"><span>₱</span>18,000</h1>
+          </div>
+          <div className="flex flex-col gap-y-1">
+            <p className="text-xs font-medium  text-red-700 flex items-center gap-x-3"><BanknoteArrowDown />Expenses</p>
+            <h1 className="text-2xl font-semibold"><span>₱</span>18,000</h1>
+          </div>
+          <div className="flex flex-col gap-y-1">
+            <p className="text-xs font-medium  text-blue-700 flex items-center gap-x-3"><WalletCards /> Remaining Balance</p>
+            <h1 className="text-2xl font-semibold"><span>₱</span>18,000</h1>
+          </div>
+        </div>
       </CardContent>
     </Card>
   )
