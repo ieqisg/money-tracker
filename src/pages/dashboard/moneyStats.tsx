@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { BanknoteArrowUp, BanknoteArrowDown, WalletCards } from "lucide-react"
+import { Separator } from "@/components/ui/separator"
 
 export const description = "An interactive area chart"
 
@@ -157,19 +158,21 @@ export function MoneyStats() {
     <Card className="pt-0 ">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Area Chart - Interactive</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-sm md:text-base">Area Chart - Interactive</CardTitle>
+          <CardDescription className="text-xs md:text-sm">
             Showing total visitors for the last 3 months
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger
-            className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
+            className=" rounded-lg sm:ml-auto sm:flex"
             aria-label="Select a value"
           >
-            <SelectValue placeholder="Last 3 months" />
+            <span className="hidden sm:inline ">
+              <SelectValue placeholder="Last 5 months" />
+            </span>
           </SelectTrigger>
-          <SelectContent className="rounded-xl">
+          <SelectContent className="rounded-xl w-1" position="popper">
             <SelectItem value="90d" className="rounded-lg">
               Last 3 months
             </SelectItem>
@@ -261,18 +264,19 @@ export function MoneyStats() {
             <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
         </ChartContainer>
-        <div className="flex flex-col gap-y-5">
-          <div className="flex flex-col gap-y-1">
+        <Separator className=" md:hidden" />
+        <div className="flex flex-col md:items-start items-center gap-y-5 mt-5 md:mt-0">
+          <div className="flex flex-col gap-y-1  md:items-start items-center">
             <p className="text-xs font-medium text-green-700 flex items-center gap-x-2">  <BanknoteArrowUp className="h-5 w-5 text-green-700" />Monthly Income</p>
-            <h1 className="text-2xl font-semibold"><span>₱</span>18,000</h1>
+            <h1 className="text-xl lg:text-2xl font-semibold"><span>₱</span>18,000</h1>
           </div>
-          <div className="flex flex-col gap-y-1">
+          <div className="flex flex-col gap-y-1  md:items-start items-center">
             <p className="text-xs font-medium  text-red-700 flex items-center gap-x-2"><BanknoteArrowDown className="h-5 w-5" />Expenses</p>
-            <h1 className="text-2xl font-semibold"><span>₱</span>18,000</h1>
+            <h1 className="text-xl lg:text-2xl font-semibold"><span>₱</span>18,000</h1>
           </div>
-          <div className="flex flex-col gap-y-1">
+          <div className="flex flex-col gap-y-1 md:items-start items-center">
             <p className="text-xs font-medium  text-blue-700 flex items-center gap-x-2"><WalletCards className="h-5 w-5" /> Remaining Balance</p>
-            <h1 className="text-2xl font-semibold"><span>₱</span>18,000</h1>
+            <h1 className="text-xl lg:text-2xl font-semibold"><span>₱</span>18,000</h1>
           </div>
         </div>
       </CardContent>

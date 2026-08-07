@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, SlidersHorizontal, SquarePen, Trash2 } from "lucide-react";
+import { SquarePen, Trash2 } from "lucide-react";
 import AddTransactions from "@/features/addTransactions";
 import FilterTransaction from "@/features/filterTransactions";
 
@@ -9,47 +8,16 @@ export default function Transactions() {
   return (
     <>
       <div className="flex justify-end space-x-2 mb-2">
-        <div className="flex flex-wrap gap-x-3">
-          <input type="search" placeholder="Search..." className="border rounded-md placeholder:text-sm p-1" />
-          <Dialog>
-            <DialogTrigger>
-              <Button variant="outline">Filter <SlidersHorizontal /> </Button>
-            </DialogTrigger>
-            <DialogContent onInteractOutside={(e) => e.preventDefault()}>
-              <DialogHeader>
-                <DialogTitle>Filter</DialogTitle>
-                <DialogDescription>Filter transactions by date, category, amount, or type</DialogDescription>
-              </DialogHeader>
-              <FilterTransaction />
-              <DialogFooter>
-                <Button variant="outline" className="text-red-700">Reset Filters</Button>
-                <Button variant="outline" >Apply Filters</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
-          <Dialog>
-            <DialogTrigger>
-              <Button >Add Transactions <Plus /></Button>
-            </DialogTrigger>
-            <DialogContent onInteractOutside={(e) => e.preventDefault()}>
-              <DialogHeader>
-                <DialogTitle>Add transactions</DialogTitle>
-                <DialogDescription>Record a new income or expense transaction</DialogDescription>
-              </DialogHeader>
-              <AddTransactions />
-              <DialogFooter>
-                <Button variant="outline" className="text-red-700">Clear</Button>
-                <Button variant="outline" >Save Transactions</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+        <div className="flex flex-row gap-x-3">
+          <input type="search" placeholder="Search..." className="border rounded-md placeholder:text-sm p-1 w-full" />
+          <FilterTransaction />
+          <AddTransactions />
         </div>
       </div>
       <div className="w-full overflow-x-auto rounded-md border">
         <Table className="min-w-200">
           <TableCaption>Recent Transactions</TableCaption>
-          <TableHeader>
+          <TableHeader className="">
             <TableRow>
               <TableHead>Date</TableHead>
               <TableHead>Description</TableHead>
@@ -60,7 +28,7 @@ export default function Transactions() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow className="text-red-700">
+            <TableRow className="text-red-700 text-sm">
               <TableCell>2026-08-04</TableCell>
               <TableCell>Grocery Store</TableCell>
               <TableCell>Food</TableCell>
