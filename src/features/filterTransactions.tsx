@@ -1,45 +1,57 @@
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { ChevronDown } from "lucide-react"
+import CategoriesProvider from "./categoriesProvider"
+import type { transactionType } from "@/types/transactionType"
+import { useState } from "react"
+
 export default function FilterTransaction() {
+  const [transType, setTransType] = useState<transactionType>("income")
+
   return (
     <>
       <div className="flex flex-col gap-y-5">
         <div className="flex flex-col">
-          <h1>Type  <span className="text-red-600">*</span></h1>
+          <h1 className="font-semibold">Type  <span className="text-red-600">*</span></h1>
           <div className="flex flex-row gap-x-5">
             <label className="flex gap-1">
-              <input type="radio" name="transType2" /> All
+              <input type="radio" name="transType2" value="all" checked={transType === "all"} onChange={() => setTransType("all")} />All
             </label>
             <label className="flex gap-1">
-              <input type="radio" name="transType2" /> Income
+              <input type="radio" name="transType2" value="income" checked={transType === "income"} onChange={() => setTransType("income")} />Income
             </label>
             <label className="flex gap-1">
-              <input type="radio" name="transType2" /> Expenses
+              <input type="radio" name="transType2" value="expenses" checked={transType === "expenses"} onChange={() => setTransType("expenses")} />Expenses
             </label>
+
           </div>
         </div>
         <div>
-          {/*todo: Add logic to change drop down with respect to transType */}
-          <h1>Category <span className="text-red-600">*</span></h1>
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <Button className="border-gray-400" variant="outline">Select a Category <ChevronDown /></Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent side="right" >
-              <DropdownMenuGroup>
-                <DropdownMenuItem>Food & Dining</DropdownMenuItem>
-                <DropdownMenuItem>Transporation</DropdownMenuItem>
-                <DropdownMenuItem>Bills</DropdownMenuItem>
-                <DropdownMenuItem>Shopping</DropdownMenuItem>
-                <DropdownMenuItem>Grocery</DropdownMenuItem>
-                <DropdownMenuItem>Entertainment</DropdownMenuItem>
-                <DropdownMenuItem>Salary</DropdownMenuItem>
-                <DropdownMenuItem>Investment</DropdownMenuItem>
-                <DropdownMenuItem>Other</DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <CategoriesProvider transType={transType} />
+        </div>
+        <div className="flex flex-col ">
+          <h1 className="font-semibold">Date range <span className="text-red-600">*</span></h1>
+          <div className="flex flex-col gap-y-5">
+            <label className="grid grid-cols-4  items-center">
+              <p className="font-medium">from: </p>
+              <input type="date" className="border p-1.5 border-gray-400 rounded-md col-span-2" />
+            </label>
+            <label className="grid grid-cols-4 items-center">
+              <p className="font-medium">to: </p>
+              <input type="date" className="border p-1.5 border-gray-400 rounded-md col-span-2" />
+            </label>
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <h1 className="font-semibold">Amount <span className="text-red-600">*</span></h1>
+          <div className="flex flex-col gap-y-5">
+            <label className="grid grid-cols-4  items-center">
+              <p className="font-medium">Min:  </p>
+              <input type="number" className="border p-1 border-gray-400 rounded-md col-span-2" />
+            </label>
+            <label className="grid grid-cols-4 items-center">
+              <p className="font-medium">Max: </p>
+              <input type="number" className="border p-1 border-gray-400 rounded-md col-span-2" />
+            </label>
+          </div>
+
         </div>
 
       </div>

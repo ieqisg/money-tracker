@@ -10,3 +10,5 @@ Authentication:
 Double check if client directly talks to the database
 Protect routes using session
 Check how the data flow
+
+Add a github contributions like for savings 

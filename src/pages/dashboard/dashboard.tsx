@@ -1,9 +1,9 @@
-import MoneyStats from "./moneyStats";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Transactions from "./transactions";
+import { MoneyStats } from "./moneyStats";
 export default function Dashboard() {
 
   return (
@@ -16,7 +16,7 @@ export default function Dashboard() {
       <div className="flex justify-end mb-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">Charts<ChevronDown /></Button>
+            <Button >Charts<ChevronDown /></Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuGroup>

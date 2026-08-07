@@ -15,27 +15,31 @@ export default function Transactions() {
             <DialogTrigger>
               <Button variant="outline">Filter <SlidersHorizontal /> </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent onInteractOutside={(e) => e.preventDefault()}>
               <DialogHeader>
                 <DialogTitle>Filter</DialogTitle>
                 <DialogDescription>Filter transactions by date, category, amount, or type</DialogDescription>
               </DialogHeader>
               <FilterTransaction />
+              <DialogFooter>
+                <Button variant="outline" className="text-red-700">Reset Filters</Button>
+                <Button variant="outline" >Apply Filters</Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
 
           <Dialog>
             <DialogTrigger>
-              <Button variant="outline">Add Transactions <Plus /></Button>
+              <Button >Add Transactions <Plus /></Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent onInteractOutside={(e) => e.preventDefault()}>
               <DialogHeader>
                 <DialogTitle>Add transactions</DialogTitle>
                 <DialogDescription>Record a new income or expense transaction</DialogDescription>
               </DialogHeader>
               <AddTransactions />
               <DialogFooter>
-                <Button variant="outline" className="text-red-700">Cancel</Button>
+                <Button variant="outline" className="text-red-700">Clear</Button>
                 <Button variant="outline" >Save Transactions</Button>
               </DialogFooter>
             </DialogContent>
