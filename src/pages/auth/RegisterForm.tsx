@@ -8,15 +8,13 @@ import {
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { Mail, User, Lock, Briefcase, Calendar, Eye, EyeOff, DollarSign } from "lucide-react"
+import { Mail, User, Lock, Eye, EyeOff, } from "lucide-react"
 import { SmallButton } from "@/components/ui/smallButton"
 import { ShimmerButton } from "@/components/ui/shimmer-button"
 import { isPasswordStrong } from "@/hooks/passwordValidator"
 import { isPasswordMatched } from "@/hooks/passwordValidator"
-import type { RegisterFormProps } from "@/types/authTypes"
-import type { RegisterForm } from "@/types/authTypes"
+import type { RegisterAuthType, RegisterFormProps } from "@/types/authTypes"
 import { useAuth } from "@/context/authContext"
-import { error } from "better-auth/api"
 
 
 export default function RegisterForm({ onLogin }: RegisterFormProps) {
@@ -25,14 +23,11 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
   const [isPassStrong, setIsPassStrong] = useState<boolean | undefined>()
   const [isPassMatched, setIsPassMatched] = useState<boolean | undefined>()
 
-  const [formData, setFormData] = useState<RegisterForm>({
+  const [formData, setFormData] = useState<RegisterAuthType>({
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
-    username: "",
-    jobTitle: "",
-    age: null,
-    monthlyIncome: null,
   })
   const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -41,9 +36,8 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
       isPasswordStrong(formData.password) ? setIsPassStrong(undefined) : setIsPassStrong(false)
       isPasswordMatched(formData.password, formData.confirmPassword) ? setIsPassMatched(undefined) : setIsPassMatched(false)
       const user = await register(formData)
-      if (error) {
-        console.error(error)
-      }
+
+
       console.log(user)
 
     } catch (error) {
@@ -51,6 +45,8 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
     }
 
   }
+
+
 
   return (
     <div className="w-full flex justify-center relative">
@@ -68,23 +64,6 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
         </CardHeader>
         <CardContent className="pt-0">
           <form className="space-y-3" onSubmit={handleCreateAccount}>
-
-            <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-[#0F172A]">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  className="pl-10 h-9"
-                  value={formData.email || ""}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
-            </div>
-
             <div className="space-y-1.5">
               <Label htmlFor="username" className="text-[#0F172A]">Username</Label>
               <div className="relative">
@@ -100,7 +79,21 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
                 />
               </div>
             </div>
-
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className="text-[#0F172A]">Email</Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  className="pl-10 h-9"
+                  value={formData.email || ""}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </div>
+            </div>
             <div className="grid grid-rows-2 gap-3">
               <div className="space-y-1.5">
                 <Label htmlFor="password" className="text-[#0F172A]">Password</Label>
@@ -148,60 +141,7 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
                   </SmallButton>
                 </div>
               </div>
-
             </div>
-
-
-
-            <div className="space-y-1.5">
-              <Label htmlFor="job" className="text-[#0F172A]">Job Title</Label>
-              <div className="relative">
-                <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <Input
-                  id="job"
-                  name="job"
-                  type="text"
-                  placeholder="e.g. Software Engineer"
-                  className="pl-10 h-9"
-                  value={formData.jobTitle}
-                  onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5">
-                <Label htmlFor="age" className="text-[#0F172A]">Age</Label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input
-                    id="age"
-                    name="age"
-                    type="number"
-                    placeholder="Age"
-                    className="pl-10 h-9"
-                    value={formData.age ? formData.age : 0}
-                    onChange={(e) => setFormData({ ...formData, age: Number(e.target.value) })}
-                  />
-                </div>
-              </div>
-              <div className="space-y-1.5">
-                <Label htmlFor="monthlyIncome" className="text-[#0F172A]">Monthly Income</Label>
-                <div className="relative">
-                  <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <Input
-                    id="monthlyIncome"
-                    name="monthlyIncome"
-                    type="number"
-                    placeholder="Income"
-                    className="pl-10 h-9"
-                    value={formData.monthlyIncome ? formData.monthlyIncome : 0}
-                    onChange={(e) => setFormData({ ...formData, monthlyIncome: Number(e.target.value) })}
-                  />
-                </div>
-              </div>
-            </div>
-
             <ShimmerButton
               type="submit"
               className="w-full text-white font-medium h-10 mt-1" background="rgba(59, 87, 4, 1)" shimmerColor="#9dd241"

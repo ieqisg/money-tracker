@@ -9,9 +9,28 @@ import {
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { ShimmerButton } from "@/components/ui/shimmer-button"
-import type { LoginFormProps } from "@/types/authTypes"
+import { type LoginAuthType, type LoginFormProps } from "@/types/authTypes"
+import { useEffect, useState } from "react"
+import { useAuth } from "@/context/authContext"
 
 export default function LoginForm({ onRegister }: LoginFormProps) {
+
+  const { login } = useAuth()
+  const [formData, setFormData] = useState<LoginAuthType>({
+    email: "",
+    password: "",
+  })
+
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const user = await login(formData)
+      console.log("Login successfully", user)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <div className="flex flex-col items-center gap-6 py-8">
       <div className="text-center">
@@ -22,20 +41,23 @@ export default function LoginForm({ onRegister }: LoginFormProps) {
       </div>
 
       <Card className="w-full max-w-sm bg-[#edffcc]">
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
+        <form onSubmit={handleLogin} >
+          <CardHeader>
+            <CardTitle>Login to your account</CardTitle>
+            <CardDescription>
+              Enter your email below to login to your account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="m@example.com"
                   required
                   className="border-[#9dd241]"
@@ -45,25 +67,35 @@ export default function LoginForm({ onRegister }: LoginFormProps) {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" required placeholder="••••••" className="border-[#9dd241]" />
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => (setFormData({ ...formData, password: e.target.value }))}
+                  required
+                  placeholder="••••••"
+                  className="border-[#9dd241]"
+                />
                 <a href="#" className="ml-auto text-xs underline-offset-4 underline">
                   Forgot your password?
                 </a>
               </div>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2 bg-[#edffcc]">
-          <ShimmerButton type="submit" className="w-full" background="rgba(59, 87, 4, 1)" shimmerColor="#9dd241">
-            Login
-          </ShimmerButton>
-          <span className="text-xs">
-            Dont have an account yet?{" "}
-            <a onClick={onRegister} className="ml-auto text-xs underline-offset-4 underline text-[#3b5704] cursor-pointer">
-              Register Here
-            </a>
-          </span>
-        </CardFooter>
+
+          </CardContent>
+          <CardFooter className="flex-col gap-2 bg-[#edffcc]">
+            <ShimmerButton type="submit" className="w-full" background="rgba(59, 87, 4, 1)" shimmerColor="#9dd241" onClick={handleLogin}>
+              Login
+            </ShimmerButton>
+
+            <span className="text-xs">
+              Dont have an account yet?{" "}
+              <a onClick={onRegister} className="ml-auto text-xs underline-offset-4 underline text-[#3b5704] cursor-pointer">
+                Register Here
+              </a>
+            </span>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   )

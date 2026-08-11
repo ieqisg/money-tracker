@@ -1,11 +1,11 @@
 import { createContext, useContext, } from "react";
 import { authClient } from "@/lib/authClient";
-import type { AuthContextType, RegisterAuth } from "@/types/authTypes";
+import type { AuthContextType, LoginAuthType, RegisterAuthType } from "@/types/authTypes";
 
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const register = async (data: RegisterAuth) => {
+  const register = async (data: RegisterAuthType) => {
     try {
       const { data: result } = await authClient.signUp.email({
         name: data.username,
@@ -18,8 +18,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.error(error)
     }
   }
+
+  const login = async (data: LoginAuthType) => {
+    try {
+      const { data: result } = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        /* callbackURL: "http://localhost:5173/dashboard", */
+      })
+      console.log(result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
-    <AuthContext.Provider value={{ register }}>
+    <AuthContext.Provider value={{ register, login }}>
       {children}
     </AuthContext.Provider>
   )
