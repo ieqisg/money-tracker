@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { ShimmerButton } from "@/components/ui/shimmer-button"
 import { type LoginAuthType, type LoginFormProps } from "@/types/authTypes"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useAuth } from "@/context/authContext"
 
 export default function LoginForm({ onRegister }: LoginFormProps) {

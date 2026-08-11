@@ -1,12 +1,12 @@
 import CategoriesProvider from "./categoriesProvider"
-import type { transactionType } from "@/types/transactionType"
 import { useState } from "react"
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
+import type { categoriesType } from "@/lib/categories";
 
 export default function FilterTransaction() {
-  const [transType, setTransType] = useState<transactionType>("income")
+  const [transType, setTransType] = useState<categoriesType>("income")
 
   return (
     <>
@@ -35,7 +35,7 @@ export default function FilterTransaction() {
               </div>
             </div>
             <div>
-              <CategoriesProvider transType={transType} />
+              <CategoriesProvider categoryType={transType} />
             </div>
             <div className="flex flex-col ">
               <h1 className="font-semibold">Date range <span className="text-red-600">*</span></h1>

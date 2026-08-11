@@ -1,14 +1,14 @@
-import { ALL_CATEGORIES } from "@/lib/categories";
+import { BASE_CATEGORIES } from "@/lib/categories";
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { categoriesProviderProps } from "@/types/transactionType";
+import type { categoriesProviderProps } from "@/lib/categories";
 
-export default function CategoriesProvider({ transType }: categoriesProviderProps) {
+export default function CategoriesProvider({ categoryType }: categoriesProviderProps) {
   const [selectCategory, setSelectCategory] = useState("")
 
   useEffect(() => {
     setSelectCategory("")
-  }, [transType])
+  }, [categoryType])
 
 
   return (
@@ -21,7 +21,7 @@ export default function CategoriesProvider({ transType }: categoriesProviderProp
         </SelectTrigger>
         <SelectContent>
           <SelectGroup >
-            {ALL_CATEGORIES[transType].map(category => (
+            {BASE_CATEGORIES[categoryType].map(category => (
               <SelectItem value={category}>{category}</SelectItem>
             ))}
           </SelectGroup>
