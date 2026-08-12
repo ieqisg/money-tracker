@@ -1,21 +1,17 @@
 import { BASE_CATEGORIES } from "@/lib/categories";
-import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { categoriesProviderProps } from "@/lib/categories";
 
-export default function CategoriesProvider({ categoryType }: categoriesProviderProps) {
-  const [selectCategory, setSelectCategory] = useState("")
+type categoryChangeProps = {
+  currentValue: string;
+  onCategoryChange: (value: string) => void;
+}
 
-  useEffect(() => {
-    setSelectCategory("")
-  }, [categoryType])
-
-
+export default function CategoriesProvider({ categoryType, onCategoryChange, currentValue }: categoriesProviderProps & categoryChangeProps) {
   return (
     <div>
-      {/*todo: Add logic to change drop down with respect to transType */}
       <h1 className="font-semibold">Category <span className="text-red-600">*</span></h1>
-      <Select value={selectCategory} onValueChange={setSelectCategory}>
+      <Select value={currentValue} onValueChange={onCategoryChange} >
         <SelectTrigger className="w-full h-1">
           <SelectValue placeholder="Select a Category" />
         </SelectTrigger>
