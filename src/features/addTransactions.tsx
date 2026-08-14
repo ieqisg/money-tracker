@@ -27,7 +27,7 @@ export default function AddTransactions() {
     <>
       <Dialog >
 
-        <DialogTrigger>
+        <DialogTrigger asChild>
           <Button ><span className="hidden md:inline">Add Transactions</span> <Plus /></Button>
         </DialogTrigger>
         <DialogContent onInteractOutside={(e) => e.preventDefault()} >

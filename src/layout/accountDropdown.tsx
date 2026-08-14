@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from "lucide-react";
 
 import type { ReactNode } from "react";
-
+import { useAuth } from "@/context/authContext";
 
 type AccountDropdownProps = {
   children: ReactNode;
@@ -19,6 +19,22 @@ type AccountDropdownProps = {
 
 
 export function AccountDropdown({ children }: AccountDropdownProps) {
+  const { signOut } = useAuth()
+  const handleSignOut = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const logout = await signOut()
+      if (!logout.success) {
+        console.log(logout.error, logout.message)
+        return
+      }
+      //reroute to auth page
+      console.log("Log out success", logout)
+    } catch (error) {
+      console.error(error)
+      throw new Error("Unexpected error occured, Please try again.")
+    }
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -55,8 +71,8 @@ export function AccountDropdown({ children }: AccountDropdownProps) {
 
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className="text-red-700">
-            <LogOut /> Log out
+          <DropdownMenuItem className="text-red-700" onClick={handleSignOut}>
+            <LogOut onClick={handleSignOut} /> Log out
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

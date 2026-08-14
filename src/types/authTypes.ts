@@ -1,3 +1,4 @@
+import { authClient } from "@/lib/authClient";
 export type LoginFormProps = {
   onRegister: () => void;
 
@@ -8,10 +9,10 @@ export type RegisterFormProps = {
 }
 
 export type RegisterAuthType = {
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
-  username: string;
 
 }
 
@@ -19,9 +20,23 @@ export type RegisterAuthType = {
 export type LoginAuthType = Pick<RegisterAuthType, "email" | "password">
 
 export type AuthContextType = {
-  register: (data: RegisterAuthType) => Promise<void>;
-  login: (data: LoginAuthType) => Promise<void>;
+  register: (data: RegisterAuthType) => Promise<AuthResponse>;
+  login: (data: LoginAuthType) => Promise<AuthResponse>;
+  getSession: () => Promise<AuthResponse>
+  signOut: () => Promise<AuthResponse>
+  session: Session | null
 }
+
+export type AuthResponse = {
+  success: boolean;
+  data?: any;
+  message?: string;
+  status?: number
+  error?: any;
+}
+
+
+export type Session = typeof authClient.$Infer.Session
 
 
 

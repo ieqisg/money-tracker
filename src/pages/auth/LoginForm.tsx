@@ -21,14 +21,19 @@ export default function LoginForm({ onRegister }: LoginFormProps) {
     password: "",
   })
 
-
+  //getSession is for testing only, remove later
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       const user = await login(formData)
-      console.log("Login successfully", user)
+      if (!user.success) {
+        console.log(user.error, user.message)
+        return
+      }
+      console.log(user)
     } catch (error) {
       console.error(error)
+      throw new Error("Unexpected error occured, Please try again.")
     }
   }
   return (

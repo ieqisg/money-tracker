@@ -13,10 +13,12 @@ import { Settings } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ChevronsUpDown } from 'lucide-react';
 import { AccountDropdown } from "@/layout/accountDropdown";
+import { useAuth } from "@/context/authContext";
 
 
 //Add props for username and email
 export function AppSidebar() {
+  const { session } = useAuth()
   return (
     <Sidebar>
       <SidebarHeader className="grid grid-cols-[auto_max-content] ">
@@ -44,8 +46,8 @@ export function AppSidebar() {
               <AvatarFallback>MT</AvatarFallback>
             </Avatar>
             <div className="">
-              <h1>Full name</h1>
-              <p className="text-xs text-gray-500">email@com</p>
+              <h1>{session?.user.name}</h1>
+              <p className="text-xs text-gray-500">{session?.user.email}</p>
             </div>
             <div className=" ml-auto">
               <ChevronsUpDown />

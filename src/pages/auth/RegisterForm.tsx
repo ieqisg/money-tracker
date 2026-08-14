@@ -8,7 +8,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import { Mail, User, Lock, Eye, EyeOff, } from "lucide-react"
+import { Mail, Lock, Eye, EyeOff, CircleUser, } from "lucide-react"
 import { SmallButton } from "@/components/ui/smallButton"
 import { ShimmerButton } from "@/components/ui/shimmer-button"
 import { isPasswordStrong } from "@/hooks/passwordValidator"
@@ -24,7 +24,7 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
   const [isPassMatched, setIsPassMatched] = useState<boolean | undefined>()
 
   const [formData, setFormData] = useState<RegisterAuthType>({
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -36,8 +36,6 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
       isPasswordStrong(formData.password) ? setIsPassStrong(undefined) : setIsPassStrong(false)
       isPasswordMatched(formData.password, formData.confirmPassword) ? setIsPassMatched(undefined) : setIsPassMatched(false)
       const user = await register(formData)
-
-
       console.log(user)
 
     } catch (error) {
@@ -65,20 +63,21 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
         <CardContent className="pt-0">
           <form className="space-y-3" onSubmit={handleCreateAccount}>
             <div className="space-y-1.5">
-              <Label htmlFor="username" className="text-[#0F172A]">Username</Label>
+              <Label htmlFor="email" className="text-[#0F172A]">Full name</Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <CircleUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <Input
-                  id="username"
-                  name="username"
+                  id="name"
+                  name="name"
                   type="text"
-                  placeholder="Choose a username"
-                  value={formData.username}
-                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  placeholder="Enter your full name"
                   className="pl-10 h-9"
+                  value={formData.name || ""}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
             </div>
+
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-[#0F172A]">Email</Label>
               <div className="relative">

@@ -17,6 +17,7 @@ export async function findExistingUser(req, res) {
 
 }
 
+//add a function from models to 
 export async function createProfile(req, res) {
   try {
     const result = await (req.body)
