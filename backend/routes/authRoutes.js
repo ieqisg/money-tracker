@@ -4,7 +4,7 @@ import { auth } from "../config/auth";
 import { requireAuth } from "../middleware/authMiddleware";
 import { createProfile, findExistingUser } from "../controller/userController";
 import { profileValidation } from "../middleware/profileValidator";
-import { profileSchema } from "../schemas/profileSchema";
+import { profileSchemaValidation } from "../validation/profileSchemaValidation";
 
 const router = Router()
 router.get("/test", (req, res) => {
@@ -12,7 +12,7 @@ router.get("/test", (req, res) => {
 });
 //todo: add middleware later
 router.get("/authTest", findExistingUser)
-router.post("/createProfile", profileValidation(profileSchema), createProfile)
+router.post("/createProfile", profileValidation(profileSchemaValidation), createProfile)
 router.all("/{*any}", (req, res, next) => {
   console.log("Better Auth route hit:", req.method, req.path);
   return toNodeHandler(auth)(req, res, next);

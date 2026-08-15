@@ -1,7 +1,8 @@
 export type ProfileFormType = {
-  savings: string;
+  savings: number;
+  goalSavings: number;
   jobTitle: string;
-  age: string;
-  monthlyIncome: string
+  age: number;
+  monthlyIncome: number;
 
 }

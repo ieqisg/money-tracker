@@ -9,7 +9,7 @@ export default function AddTransactions() {
   const [formData, setFormData] = useState<transactionsFormType>({
     transactionType: "income",
     category: "",
-    amount: null,
+    amount: Number(""),
     description: "",
     date: new Date(),
   })
@@ -28,7 +28,7 @@ export default function AddTransactions() {
       <Dialog >
 
         <DialogTrigger asChild>
-          <Button ><span className="hidden md:inline">Add Transactions</span> <Plus /></Button>
+          <Button ><span className="hidden md:inline">Transactions</span> <Plus /></Button>
         </DialogTrigger>
         <DialogContent onInteractOutside={(e) => e.preventDefault()} >
           <form onSubmit={handleSubmitTransaction}>

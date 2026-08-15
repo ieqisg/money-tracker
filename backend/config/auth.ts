@@ -13,5 +13,15 @@ export const auth = betterAuth({
     enabled: true,
     autoSignIn: true,
     minPasswordLength: 8,
+  },
+  user: {
+    additionalFields: {
+      isProfileComplete: {
+        type: "boolean",
+        input: false,
+        defaultValue: false,
+        required: true,
+      }
+    }
   }
 });

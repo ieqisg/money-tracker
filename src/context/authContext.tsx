@@ -6,6 +6,7 @@ export const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
   const register = async (data: RegisterAuthType): Promise<AuthResponse> => {
     if (!data) return { success: false, message: "Email or password is required" }
     const { data: result, error } = await authClient.signUp.email({
@@ -72,6 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const loadSession = async () => {
+      try {
       const sessionData = await getSession()
       if (!sessionData.success) {
         return { message: "No session retrieved" }
@@ -80,13 +82,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { error: sessionData.error, message: sessionData.message }
       }
       setSession(sessionData.data)
-
+    } catch (error) {
+      throw new Error("Unexpected error occured")
+    } finally {
+      setLoading(false)
+    }
 
     }
     loadSession()
   }, [])
   return (
-    <AuthContext.Provider value={{ register, login, signOut, getSession, session }}>
+    <AuthContext.Provider value={{ register, login, signOut, getSession, session, loading }}>
       {children}
     </AuthContext.Provider>
   )

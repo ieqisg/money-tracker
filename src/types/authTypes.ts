@@ -25,6 +25,7 @@ export type AuthContextType = {
   getSession: () => Promise<AuthResponse>
   signOut: () => Promise<AuthResponse>
   session: Session | null
+  loading: boolean;
 }
 
 export type AuthResponse = {

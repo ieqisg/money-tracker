@@ -7,6 +7,7 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+  isProfileComplete: boolean("is_profile_complete").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
@@ -53,6 +54,7 @@ export const account = pgTable(
     updatedAt: timestamp("updated_at")
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
+    testColumn: text("test_column").default("test"),
   },
   (table) => [index("account_userId_idx").on(table.userId)],
 );

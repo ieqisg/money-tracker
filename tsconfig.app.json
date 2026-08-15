@@ -6,26 +6,23 @@
     "module": "esnext",
     "types": ["vite/client", "node"],
     "skipLibCheck": true,
-
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist-types/app",
+    "declarationDir": "./dist-types/app",
     "jsx": "react-jsx",
-
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-
-    "ignoreDeprecations": "6.0"
-   
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*"]
 }
