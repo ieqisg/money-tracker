@@ -3,16 +3,6 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "types": ["node"]
-    }
-  }, 
-  "include": [
-    "vite.config.ts",
-    "drizzle.config.ts" // 👈 Add this line here
   ]
+  
 }
