@@ -1,4 +1,9 @@
-
+import CategoriesProvider from "./categoriesProvider"
+import { useState } from "react"
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { SlidersHorizontal } from "lucide-react";
+import { BASE_CATEGORIES, type categoriesType } from "@/lib/categories";
 import {
   Select,
   SelectContent,
@@ -10,6 +15,7 @@ import {
 } from "@/components/ui/select"
 
 export default function FilterTransaction() {
+  const [transType, setTransType] = useState<categoriesType>("income")
 
   return (
     <Select>
@@ -19,7 +25,9 @@ export default function FilterTransaction() {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Sort by: </SelectLabel>
-          <SelectItem value="tite">Tite</SelectItem>
+          {BASE_CATEGORIES[transType].map((category) => (
+            <SelectItem value={category}>{category}</SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>
