@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { profile } from "./profile-schema";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -54,7 +55,6 @@ export const account = pgTable(
     updatedAt: timestamp("updated_at")
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
-    testColumn: text("test_column").default("test"),
   },
   (table) => [index("account_userId_idx").on(table.userId)],
 );
@@ -75,9 +75,10 @@ export const verification = pgTable(
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
 
-export const userRelations = relations(user, ({ many }) => ({
+export const userRelations = relations(user, ({ one, many }) => ({
   sessions: many(session),
   accounts: many(account),
+  profile: one(profile),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
