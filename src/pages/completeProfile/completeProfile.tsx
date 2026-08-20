@@ -70,117 +70,115 @@ export default function CompleteProfile() {
   };
 
   return (
-    <div className="w-full flex justify-center items-center relative">
-      <Card className="w-full max-w-sm bg-[#edffcc] border-slate-200 relative">
-        <CardHeader className="text-center space-y-1 pb-4">
+    <div className="min-h-screen flex justify-center items-center relative bg-[#0a0a0a]">
+      <Card className="w-full max-w-sm bg-[#171717]   relative">
+        <CardHeader className="text-center space-y-1 ">
           <div className="mx-auto w-11 h-11 rounded-full bg-[#9dd241] flex items-center justify-center mb-1">
             <span className="text-[#3b5704] font-bold text-xl">$</span>
           </div>
-
-          <CardTitle className="text-xl font-bold text-black">
+          <CardTitle className="text-xl font-bold text-white">
             Complete your profile
           </CardTitle>
-
-          <CardDescription className="text-slate-500 text-sm">
+          <CardDescription className="text-slate-500 text-xs">
             Complete your profile to get started
           </CardDescription>
         </CardHeader>
 
         <CardContent className="pt-0">
           <form className="space-y-3" onSubmit={handleSubmit}>
-            <div className="space-y-1.5">
-              <Label htmlFor="currSavings" className="text-[#0F172A]">
-                Current Savings
-              </Label>
+            <div className="flex flex-row gap-x-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="currSavings" className="text-white">
+                  Current Savings
+                </Label>
+                <div className="relative">
+                  <CircleUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
 
-              <div className="relative">
-                <CircleUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-
-                <Input
-                  id="currSavings"
-                  name="currSavings"
-                  type="number"
-                  placeholder="Enter your current savings"
-                  className={
-                    touched.currSavings && !validations[0].valid
-                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0"
-                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0"
-                  }
-                  value={formData.currSavings || ""}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      currSavings: Number(e.target.value),
-                    })
-                  }
-                  onBlur={() =>
-                    setTouched({
-                      ...touched,
-                      currSavings: true,
-                    })
-                  }
-                />
+                  <Input
+                    id="currSavings"
+                    name="currSavings"
+                    type="number"
+                    placeholder="Enter your current savings"
+                    className={
+                      touched.currSavings && !validations[0].valid
+                        ? "pl-10 h-9  border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
+                        : "pl-10 h-9  focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
+                    }
+                    value={formData.currSavings || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        currSavings: Number(e.target.value),
+                      })
+                    }
+                    onBlur={() =>
+                      setTouched({
+                        ...touched,
+                        currSavings: true,
+                      })
+                    }
+                  />
+                </div>
+                <span className="text-xs text-red-600 flex gap-x-1">
+                  {touched.currSavings && !validations[0].valid ? (
+                    <>
+                      <CircleAlert className="h-4 w-4" />
+                      {validations[0].text}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </span>
               </div>
-              <span className="text-xs text-red-600 flex items-center gap-x-1">
-                {touched.currSavings && !validations[0].valid ? (
-                  <>
-                    <CircleAlert className="h-3 w-3" />
-                    {validations[0].text}
-                  </>
-                ) : (
-                  ""
-                )}
-              </span>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="goalSavings" className="text-white">
+                  Goal Savings
+                </Label>
+
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+
+                  <Input
+                    id="goalSavings"
+                    name="goalSavings"
+                    type="number"
+                    placeholder="Enter your goal savings"
+                    className={
+                      touched.goalSavings && !validations[1].valid
+                        ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
+                        : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
+                    }
+                    value={formData.goalSavings || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        goalSavings: Number(e.target.value),
+                      })
+                    }
+                    onBlur={() =>
+                      setTouched({
+                        ...touched,
+                        goalSavings: true,
+                      })
+                    }
+                  />
+                </div>
+                <span className="text-xs text-red-600 flex  gap-x-1">
+                  {touched.goalSavings && !validations[1].valid ? (
+                    <>
+                      <CircleAlert className="h-3 w-3" />
+                      {validations[1].text}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </span>
+              </div>
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="goalSavings" className="text-[#0F172A]">
-                Goal Savings
-              </Label>
-
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-
-                <Input
-                  id="goalSavings"
-                  name="goalSavings"
-                  type="number"
-                  placeholder="Enter your goal savings"
-                  className={
-                    touched.goalSavings && !validations[1].valid
-                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0"
-                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0"
-                  }
-                  value={formData.goalSavings || ""}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      goalSavings: Number(e.target.value),
-                    })
-                  }
-                  onBlur={() =>
-                    setTouched({
-                      ...touched,
-                      goalSavings: true,
-                    })
-                  }
-                />
-              </div>
-              <span className="text-xs text-red-600 flex items-center gap-x-1">
-                {touched.goalSavings && !validations[1].valid ? (
-                  <>
-                    <CircleAlert className="h-3 w-3" />
-                    {validations[1].text}
-                  </>
-                ) : (
-                  ""
-                )}
-              </span>
-            </div>
-
-            {/* Job Title */}
-            <div className="space-y-1.5">
-              <Label htmlFor="jobTitle" className="text-[#0F172A]">
+              <Label htmlFor="jobTitle" className="text-white">
                 Job title
               </Label>
 
@@ -194,8 +192,8 @@ export default function CompleteProfile() {
                   placeholder="Enter your job title"
                   className={
                     touched.jobTitle && !validations[2].valid
-                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0"
-                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0"
+                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0  text-white"
+                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
                   }
                   value={formData.jobTitle || ""}
                   onChange={(e) =>
@@ -225,7 +223,7 @@ export default function CompleteProfile() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="age" className="text-[#0F172A]">
+              <Label htmlFor="age" className="text-white">
                 Age
               </Label>
 
@@ -239,8 +237,8 @@ export default function CompleteProfile() {
                   placeholder="Enter your age"
                   className={
                     touched.age && !validations[3].valid
-                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0"
-                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0"
+                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
+                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
                   }
                   value={formData.age || ""}
                   onChange={(e) =>
@@ -270,7 +268,7 @@ export default function CompleteProfile() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="monthlyIncome" className="text-[#0F172A]">
+              <Label htmlFor="monthlyIncome" className="text-white">
                 Monthly Income
               </Label>
 
@@ -284,8 +282,8 @@ export default function CompleteProfile() {
                   placeholder="Enter your monthly income"
                   className={
                     touched.monthlyIncome && !validations[4].valid
-                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0"
-                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0"
+                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
+                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
                   }
                   value={formData.monthlyIncome || ""}
                   onChange={(e) =>
@@ -317,7 +315,7 @@ export default function CompleteProfile() {
             <div className="flex flex-row justify-end">
               <Button
                 type="submit"
-                className="text-white font-medium h-10 mt-1"
+                className="text-black bg-white font-medium h-10 mt-1"
               >
                 Complete Profile
               </Button>
