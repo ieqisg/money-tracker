@@ -1,5 +1,5 @@
 import { validateCreateProfile } from "../middleware/profileValidator";
-import { findUserByEmail } from "../models/userModel";
+import { createProfileModel, findUserByEmail } from "../models/userModel";
 
 export async function findExistingUser(req, res) {
   try {
@@ -20,18 +20,25 @@ export async function createProfile(req, res) {
   try {
     const userId = req.userId;
     if (!userId)
-      return res.json({ success: false, message: "User id is required" });
-    const { age, currSavings, goalSavings, jobTitle, monthlyIncome } = req.body;
+      return res
+        .status(400)
+        .json({ success: false, message: "User id is required" });
+    const profileData = { userId, ...req.body };
     const profileNotValid = validateCreateProfile(req.body);
     if (profileNotValid) {
-      return res.status(400).json({ success: false, message: profileNotVlaid });
+      return res.status(400).json({ success: false, message: profileNotValid });
+    }
+
+    const result = await createProfileModel(profileData);
+    if (!result) {
+      return res.json({ message: result });
     }
     return res.status(201).json({
       success: true,
-      data: { currSavings, goalSavings, jobTitle, monthlyIncome, age },
+      data: result,
       message: "Profile created successfully",
     });
   } catch (error) {
-    res.json({ message: error });
+    res.status(500).json({ message: error });
   }
 }
