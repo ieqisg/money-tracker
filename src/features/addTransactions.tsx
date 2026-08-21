@@ -76,7 +76,7 @@ export default function AddTransactions() {
                 <input
                   name="amount"
                   className="border-b border-black focus:outline-none"
-                  type="number"
+                  type="text"
                   placeholder="Enter amount "
                   value={formData.amount ?? ""}
                   onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) })}

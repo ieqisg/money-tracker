@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { createProfile } from "@/api/userProfile";
 import { validateProfile } from "@/hooks/profileValidator";
 import { formatNumber } from "@/hooks/profileValidator";
+import { useTouched } from "@/hooks/useTouched";
 
 export default function CompleteProfile() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -26,7 +27,10 @@ export default function CompleteProfile() {
     monthlyIncome: Number(""),
   });
 
-  const [touched, setTouched] = useState({
+  const {
+    touched,
+    touch,
+  } = useTouched({
     currSavings: false,
     goalSavings: false,
     jobTitle: false,
@@ -41,13 +45,7 @@ export default function CompleteProfile() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setTouched({
-      currSavings: true,
-      goalSavings: true,
-      jobTitle: true,
-      age: true,
-      monthlyIncome: true,
-    });
+
 
     const isValid = validations.every((validation) => validation.valid);
 
@@ -108,12 +106,7 @@ export default function CompleteProfile() {
                         currSavings: Number(e.target.value.replace(/\D/g, "")),
                       })
                     }
-                    onBlur={() =>
-                      setTouched({
-                        ...touched,
-                        currSavings: true,
-                      })
-                    }
+                    onBlur={() => touch("currSavings")}
                   />
                 </div>
                 <span className="text-xs text-red-600 flex gap-x-1">
@@ -149,12 +142,8 @@ export default function CompleteProfile() {
                         goalSavings: Number(e.target.value.replace(/\D/g, "")),
                       })
                     }
-                    onBlur={() =>
-                      setTouched({
-                        ...touched,
-                        goalSavings: true,
-                      })
-                    }
+                    onBlur={() => touch("goalSavings")}
+
                   />
                 </div>
                 <span className="text-xs text-red-600 flex  gap-x-1">
@@ -192,12 +181,7 @@ export default function CompleteProfile() {
                       jobTitle: e.target.value.replace(/[0-9]/g, ''),
                     })
                   }
-                  onBlur={() =>
-                    setTouched({
-                      ...touched,
-                      jobTitle: true,
-                    })
-                  }
+                  onBlur={() => touch("jobTitle")}
                 />
               </div>
               <span className="text-xs text-red-600 flex items-center gap-x-1">
@@ -234,12 +218,7 @@ export default function CompleteProfile() {
                       age: Number(e.target.value.replace(/\D/g, "")),
                     })
                   }
-                  onBlur={() =>
-                    setTouched({
-                      ...touched,
-                      age: true,
-                    })
-                  }
+                  onBlur={() => touch("age")}
                 />
               </div>
               <span className="text-xs text-red-600 flex items-center gap-x-1">
@@ -267,7 +246,7 @@ export default function CompleteProfile() {
                   name="monthlyIncome"
                   type="text"
                   placeholder="Enter your monthly income"
-                  className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.currSavings && !validations[0].valid ? "border-red-600" : ""}`}
+                  className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.monthlyIncome && !validations[0].valid ? "border-red-600" : ""}`}
                   value={formData.monthlyIncome ? formatNumber(formData.monthlyIncome) : ""}
                   onChange={(e) =>
                     setFormData({
@@ -275,12 +254,7 @@ export default function CompleteProfile() {
                       monthlyIncome: Number(e.target.value.replace(/\D/g, "")),
                     })
                   }
-                  onBlur={() =>
-                    setTouched({
-                      ...touched,
-                      monthlyIncome: true,
-                    })
-                  }
+                  onBlur={() => touch("monthlyIncome")}
                 />
               </div>
               <span className="text-xs text-red-600 flex items-center gap-x-1">
