@@ -8,11 +8,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Mail, CircleUser, CircleAlert } from "lucide-react";
+import { CircleUser, CircleAlert, PhilippinePeso, BriefcaseBusiness } from "lucide-react";
 import { type ProfileFormType } from "@/types/profileTypes";
 import { Button } from "@/components/ui/button";
 import { createProfile } from "@/api/userProfile";
 import { validateProfile } from "@/hooks/profileValidator";
+import { formatNumber } from "@/hooks/profileValidator";
 
 export default function CompleteProfile() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -32,6 +33,8 @@ export default function CompleteProfile() {
     age: false,
     monthlyIncome: false,
   });
+
+
 
   const validations = validateProfile(formData);
 
@@ -70,13 +73,11 @@ export default function CompleteProfile() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center relative bg-[#0a0a0a]">
-      <Card className="w-full max-w-sm bg-[#171717]   relative">
+    <div className="min-h-screen flex justify-center items-center relative bg-white">
+      <Card className="w-full max-w-sm relative border-0 shadow-none">
         <CardHeader className="text-center space-y-1 ">
-          <div className="mx-auto w-11 h-11 rounded-full bg-[#9dd241] flex items-center justify-center mb-1">
-            <span className="text-[#3b5704] font-bold text-xl">$</span>
-          </div>
-          <CardTitle className="text-xl font-bold text-white">
+
+          <CardTitle className="text-xl font-bold text-black">
             Complete your profile
           </CardTitle>
           <CardDescription className="text-slate-500 text-xs">
@@ -88,27 +89,23 @@ export default function CompleteProfile() {
           <form className="space-y-3" onSubmit={handleSubmit}>
             <div className="flex flex-row gap-x-2">
               <div className="space-y-1.5">
-                <Label htmlFor="currSavings" className="text-white">
+                <Label htmlFor="currSavings" className="text-black">
                   Current Savings
                 </Label>
                 <div className="relative">
-                  <CircleUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <PhilippinePeso className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
 
                   <Input
                     id="currSavings"
                     name="currSavings"
-                    type="number"
-                    placeholder="Enter your current savings"
-                    className={
-                      touched.currSavings && !validations[0].valid
-                        ? "pl-10 h-9  border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                        : "pl-10 h-9  focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                    }
-                    value={formData.currSavings || ""}
+                    type="text"
+                    placeholder="20,000"
+                    className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.currSavings && !validations[0].valid ? "border-red-600" : ""}`}
+                    value={formData.currSavings ? formatNumber(formData.currSavings) : ""}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        currSavings: Number(e.target.value),
+                        currSavings: Number(e.target.value.replace(/\D/g, "")),
                       })
                     }
                     onBlur={() =>
@@ -132,28 +129,24 @@ export default function CompleteProfile() {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="goalSavings" className="text-white">
+                <Label htmlFor="goalSavings" className="text-black">
                   Goal Savings
                 </Label>
 
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <PhilippinePeso className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
 
                   <Input
                     id="goalSavings"
                     name="goalSavings"
-                    type="number"
-                    placeholder="Enter your goal savings"
-                    className={
-                      touched.goalSavings && !validations[1].valid
-                        ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                        : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                    }
-                    value={formData.goalSavings || ""}
+                    type="text"
+                    placeholder="e.g 5,000"
+                    className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.goalSavings && !validations[1].valid ? "border-red-600" : ""}`}
+                    value={formData.goalSavings ? formatNumber(formData.goalSavings) : ""}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        goalSavings: Number(e.target.value),
+                        goalSavings: Number(e.target.value.replace(/\D/g, "")),
                       })
                     }
                     onBlur={() =>
@@ -178,28 +171,25 @@ export default function CompleteProfile() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="jobTitle" className="text-white">
+              <Label htmlFor="jobTitle" className="text-black">
                 Job title
               </Label>
 
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <BriefcaseBusiness className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
 
                 <Input
                   id="jobTitle"
                   name="jobTitle"
                   type="text"
                   placeholder="Enter your job title"
-                  className={
-                    touched.jobTitle && !validations[2].valid
-                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0  text-white"
-                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                  }
+
+                  className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.jobTitle && !validations[2].valid ? "border-red-600" : ""}`}
                   value={formData.jobTitle || ""}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      jobTitle: e.target.value,
+                      jobTitle: e.target.value.replace(/[0-9]/g, ''),
                     })
                   }
                   onBlur={() =>
@@ -223,28 +213,25 @@ export default function CompleteProfile() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="age" className="text-white">
+              <Label htmlFor="age" className="text-black">
                 Age
               </Label>
 
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <CircleUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
 
                 <Input
                   id="age"
                   name="age"
-                  type="number"
+                  type="text"
                   placeholder="Enter your age"
-                  className={
-                    touched.age && !validations[3].valid
-                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                  }
-                  value={formData.age || ""}
+                  maxLength={3}
+                  className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.age && !validations[3].valid ? "border-red-600" : ""}`}
+                  value={formData.age ? formatNumber(formData.age) : ""}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      age: Number(e.target.value),
+                      age: Number(e.target.value.replace(/\D/g, "")),
                     })
                   }
                   onBlur={() =>
@@ -268,28 +255,24 @@ export default function CompleteProfile() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="monthlyIncome" className="text-white">
+              <Label htmlFor="monthlyIncome" className="text-black">
                 Monthly Income
               </Label>
 
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <PhilippinePeso className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
 
                 <Input
                   id="monthlyIncome"
                   name="monthlyIncome"
-                  type="number"
+                  type="text"
                   placeholder="Enter your monthly income"
-                  className={
-                    touched.monthlyIncome && !validations[4].valid
-                      ? "pl-10 h-9 border-red-600 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                      : "pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0 text-white"
-                  }
-                  value={formData.monthlyIncome || ""}
+                  className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.currSavings && !validations[0].valid ? "border-red-600" : ""}`}
+                  value={formData.monthlyIncome ? formatNumber(formData.monthlyIncome) : ""}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
-                      monthlyIncome: Number(e.target.value),
+                      monthlyIncome: Number(e.target.value.replace(/\D/g, "")),
                     })
                   }
                   onBlur={() =>
@@ -315,7 +298,7 @@ export default function CompleteProfile() {
             <div className="flex flex-row justify-end">
               <Button
                 type="submit"
-                className="text-black bg-white font-medium h-10 mt-1"
+                className="text-white bg-green-500 font-medium h-10 mt-1"
               >
                 Complete Profile
               </Button>

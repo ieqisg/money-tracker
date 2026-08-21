@@ -39,6 +39,7 @@ export async function createProfile(req, res) {
       message: "Profile created successfully",
     });
   } catch (error) {
-    res.status(500).json({ message: error });
+    if (error)
+      res.status(500).json({ message: "Internal server error", error });
   }
 }
