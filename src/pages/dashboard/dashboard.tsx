@@ -4,7 +4,11 @@ import { ChevronDown } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Transactions from "./transactions";
 import { MoneyStats } from "./moneyStats";
+import { useAuth } from "@/context/authContext";
 export default function Dashboard() {
+  const { userData, loading } = useAuth()
+
+  if (loading) return <div>Loading...</div>
 
   return (
     <div className="font-sans  p-6 min-h-screen">
@@ -28,7 +32,7 @@ export default function Dashboard() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <MoneyStats />
+      <MoneyStats monthlyIncome={userData?.monthlyIncome ?? 0} />
       <div className="my-4">
         <h1 className="font-bold ">Transactions</h1>
         <p className="text-xs text-muted-foreground">Keep track of every income and expense in one place</p>

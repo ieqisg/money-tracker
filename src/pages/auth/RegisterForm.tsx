@@ -18,6 +18,7 @@ import { useAuth } from "@/context/authContext"
 
 
 export default function RegisterForm({ onLogin }: RegisterFormProps) {
+  const [loading, setLoading] = useState<boolean>(false)
   const { register } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [isPassStrong, setIsPassStrong] = useState<boolean | undefined>()
@@ -31,6 +32,7 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
   })
   const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     sessionStorage.removeItem('authChoice');
     try {
       isPasswordStrong(formData.password) ? setIsPassStrong(undefined) : setIsPassStrong(false)
@@ -40,11 +42,13 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
 
     } catch (error) {
       console.error(error)
+    } finally {
+      setLoading(false)
     }
 
   }
 
-
+  if (loading) return <div>Loading...</div>
 
   return (
     <div className="w-full flex justify-center relative">

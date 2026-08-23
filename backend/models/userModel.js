@@ -29,3 +29,8 @@ export async function createProfileModel(profileData) {
   );
   return insertProfile.rows[0];
 }
+
+export async function getProfileModel(userId) {
+  const getProfile = await pool.query(`SELECT * FROM "profile" WHERE user_id = $1`, [userId])
+  return getProfile.rows[0]
+}

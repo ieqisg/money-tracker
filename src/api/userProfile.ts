@@ -1,11 +1,13 @@
 import type { ApiResponse } from "@/types/authTypes";
 import type { ProfileFormType } from "@/types/profileTypes";
+const API_URL = import.meta.env.VITE_API_URL
+
+
 
 export const createProfile = async (
-  url: string,
   body: ProfileFormType,
 ): Promise<ApiResponse> => {
-  const response = await fetch(url, {
+  const response = await fetch(`${API_URL}/api/profile`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -15,7 +17,20 @@ export const createProfile = async (
   });
 
   if (!response.ok) {
-    console.log("Error. Status:", response.status);
+    console.log("Error ", response)
+    return { success: false }
   }
-  return await response.json();
+  return response.json();
 };
+
+export const getProfile = async (): Promise<ApiResponse> => {
+  const response = await fetch(`${API_URL}/api/profile`, {
+    method: "GET",
+    credentials: "include",
+  })
+  if (!response.ok) {
+    console.log("Error", response)
+    return { success: false, data: response.json() }
+  }
+  return response.json()
+}

@@ -12,6 +12,6 @@ app.use(
 );
 app.use(express.json());
 app.use("/api/auth", authRoutes);
-app.use("/api/profile", profileRoutes);
+app.use("/api", profileRoutes);
 
 export default app;

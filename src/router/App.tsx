@@ -3,7 +3,10 @@ import LandingPage from "@/pages/landing/Landing";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "@/pages/dashboard/dashboard";
 import DashboardLayout from "@/layout/dashboardLayout";
-import CompleteProfile from "@/pages/completeProfile/completeProfile";
+import CompleteProfile from "@/pages/profile/completeProfile";
+import Transactions from "@/pages/dashboard/transactions";
+import UserProfile from "@/pages/profile/userProfile";
+import Settings from "@/pages/settings/settings";
 // import PrivateRoute from "./PrivateRoute";
 // import AuthRouter from "./AuthRouter";
 // import ProfileCompletionGuard from "./ProfileCompletionGuard";
@@ -26,6 +29,9 @@ export default function App() {
       {/* <Route element={<ProfileCompletionGuard />}> */}
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/settings" element={<Settings />} />
       </Route>
       {/* </Route> */}
 

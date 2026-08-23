@@ -1,4 +1,5 @@
 import { authClient } from "@/lib/authClient";
+import type { UserDataType } from "./profileTypes";
 export type LoginFormProps = {
   onRegister: () => void;
 };
@@ -22,6 +23,7 @@ export type AuthContextType = {
   getSession: () => Promise<ApiResponse>;
   signOut: () => Promise<ApiResponse>;
   session: Session | null;
+  userData: UserDataType | null
   loading: boolean;
 };
 

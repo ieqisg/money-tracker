@@ -14,7 +14,7 @@ import { useState } from "react"
 import { useAuth } from "@/context/authContext"
 
 export default function LoginForm({ onRegister }: LoginFormProps) {
-
+  const [loading, setLoading] = useState<boolean>(false)
   const { login } = useAuth()
   const [formData, setFormData] = useState<LoginAuthType>({
     email: "",
@@ -24,6 +24,7 @@ export default function LoginForm({ onRegister }: LoginFormProps) {
   //getSession is for testing only, remove later
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const user = await login(formData)
       if (!user.success) {
@@ -34,8 +35,12 @@ export default function LoginForm({ onRegister }: LoginFormProps) {
     } catch (error) {
       console.error(error)
       throw new Error("Unexpected error occured, Please try again.")
+    } finally {
+      setLoading(false)
     }
   }
+
+  if (loading) return <div>Loading...</div>
   return (
     <div className="flex flex-col items-center gap-6 py-8">
       <div className="text-center">

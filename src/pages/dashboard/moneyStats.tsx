@@ -26,7 +26,8 @@ import {
 } from "@/components/ui/select"
 import { BanknoteArrowUp, BanknoteArrowDown, WalletCards } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
-
+import type { MoneyStatsProps } from "@/types/profileTypes"
+import { formatNumber } from "@/hooks/profileValidator"
 export const description = "An interactive area chart"
 
 const chartData = [
@@ -137,7 +138,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function MoneyStats() {
+export function MoneyStats({ monthlyIncome }: MoneyStatsProps) {
   const [timeRange, setTimeRange] = React.useState("90d")
 
   const filteredData = chartData.filter((item) => {
@@ -268,7 +269,7 @@ export function MoneyStats() {
         <div className="flex flex-col md:items-start items-center gap-y-5 mt-5 md:mt-0">
           <div className="flex flex-col gap-y-1  md:items-start items-center">
             <p className="text-xs font-medium text-green-700 flex items-center gap-x-2">  <BanknoteArrowUp className="h-5 w-5 text-green-700" />Monthly Income</p>
-            <h1 className="text-xl lg:text-2xl font-semibold"><span>₱</span>18,000</h1>
+            <h1 className="text-xl lg:text-2xl font-semibold"><span>₱</span>{formatNumber(monthlyIncome)}</h1>
           </div>
           <div className="flex flex-col gap-y-1  md:items-start items-center">
             <p className="text-xs font-medium  text-red-700 flex items-center gap-x-2"><BanknoteArrowDown className="h-5 w-5" />Expenses</p>

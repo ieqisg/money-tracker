@@ -8,9 +8,13 @@ import {
   type RegisterAuthType,
 } from "@/types/authTypes";
 
+import type { UserDataType } from "@/types/profileTypes";
+import { getProfile } from "@/api/userProfile";
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [userData, setUserData] = useState<UserDataType | null>(null)
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const register = async (data: RegisterAuthType): Promise<ApiResponse> => {
@@ -47,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: result, error } = await authClient.signIn.email({
       email: data.email,
       password: data.password,
-      /* callbackURL: "http://localhost:5173/dashboard", */
+      callbackURL: "http://localhost:5173/dashboard",
     });
 
     if (error) {
@@ -88,8 +92,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   };
 
+  const getUserData = async (): Promise<ApiResponse> => {
+    const data = await getProfile()
+    if (!data) {
+      return { success: false, message: "No data retrieved", data }
+    }
+    return data
+  }
+
   useEffect(() => {
-    const loadSession = async () => {
+
+  }, [])
+
+  useEffect(() => {
+    const loadData = async () => {
       try {
         const sessionData = await getSession();
         if (!sessionData.success) {
@@ -99,17 +115,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return { error: sessionData.error, message: sessionData.message };
         }
         setSession(sessionData.data);
+        const fetchUserData = await getUserData()
+        if (!fetchUserData.success) {
+          return { message: "No data retrieved" }
+        }
+        if (fetchUserData.error) {
+          return { error: fetchUserData.error, message: fetchUserData.message }
+        }
+        setUserData(fetchUserData.data)
+
       } catch (error) {
         throw new Error("Unexpected error occured");
       } finally {
         setLoading(false);
       }
     };
-    loadSession();
+
+    loadData()
   }, []);
+
+
+
   return (
     <AuthContext.Provider
-      value={{ register, login, signOut, getSession, session, loading }}
+      value={{ register, login, signOut, getSession, session, loading, userData }}
     >
       {children}
     </AuthContext.Provider>

@@ -7,16 +7,16 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
 import Logo from "./logo"
-import { CircleUser, LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard } from 'lucide-react';
 import { BadgeDollarSign } from 'lucide-react';
 import { Settings } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ChevronsUpDown } from 'lucide-react';
 import { AccountDropdown } from "@/layout/accountDropdown";
 import { useAuth } from "@/context/authContext";
+import { Link } from "react-router-dom";
 
 
-//Add props for username and email
 export function AppSidebar() {
   const { session } = useAuth()
   return (
@@ -32,18 +32,40 @@ export function AppSidebar() {
       </SidebarHeader>
       <hr className="my-2 border-gray-300" />
       <SidebarContent >
-        <SidebarGroup className="gap-y-2">
-          <SidebarMenuButton><LayoutDashboard />Dashboard</SidebarMenuButton>
-          <SidebarMenuButton><BadgeDollarSign />Transactions</SidebarMenuButton>
-          <SidebarMenuButton><CircleUser />Profile</SidebarMenuButton>
-          <SidebarMenuButton><Settings />Settings</SidebarMenuButton>
-        </SidebarGroup>
+        <nav>
+          <SidebarGroup className="gap-y-2">
+            <SidebarMenuButton asChild>
+              <Link to="/dashboard">
+                <LayoutDashboard />
+                <span>Dashboard</span>
+              </Link>
+            </SidebarMenuButton>
+            <SidebarMenuButton asChild>
+              <Link to="/transactions">
+                <BadgeDollarSign />
+                <span>Transactions</span>
+              </Link>
+            </SidebarMenuButton>
+            <SidebarMenuButton asChild>
+              <Link to="/profile">
+                <BadgeDollarSign />
+                <span>Profile</span>
+              </Link>
+            </SidebarMenuButton>
+            <SidebarMenuButton asChild>
+              <Link to="/settings">
+                <Settings />
+                <span>Settings</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarGroup>
+        </nav>
       </SidebarContent>
       <SidebarFooter >
         <AccountDropdown>
           <SidebarMenuButton className="h-15">
             <Avatar>
-              <AvatarFallback>MT</AvatarFallback>
+              <AvatarFallback>{session?.user?.name.slice(0, 2)}</AvatarFallback>
             </Avatar>
             <div className="">
               <h1>{session?.user.name}</h1>
@@ -55,6 +77,6 @@ export function AppSidebar() {
           </SidebarMenuButton >
         </AccountDropdown>
       </SidebarFooter>
-    </Sidebar>
+    </Sidebar >
   )
 }

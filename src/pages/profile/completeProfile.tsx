@@ -17,7 +17,6 @@ import { formatNumber } from "@/hooks/profileValidator";
 import { useTouched } from "@/hooks/useTouched";
 
 export default function CompleteProfile() {
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const [formData, setFormData] = useState<ProfileFormType>({
     currSavings: Number(""),
@@ -55,7 +54,6 @@ export default function CompleteProfile() {
 
     try {
       const result = await createProfile(
-        `${API_URL}/api/profile/createProfile`,
         formData,
       );
 

@@ -9,8 +9,9 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from "lucide-react";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { useAuth } from "@/context/authContext";
+import { useNavigate } from "react-router-dom";
 
 type AccountDropdownProps = {
   children: ReactNode;
@@ -19,9 +20,12 @@ type AccountDropdownProps = {
 
 
 export function AccountDropdown({ children }: AccountDropdownProps) {
-  const { signOut } = useAuth()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState<boolean>(false)
+  const { signOut, session } = useAuth()
   const handleSignOut = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const logout = await signOut()
       if (!logout.success) {
@@ -33,8 +37,12 @@ export function AccountDropdown({ children }: AccountDropdownProps) {
     } catch (error) {
       console.error(error)
       throw new Error("Unexpected error occured, Please try again.")
+    } finally {
+      setLoading(false)
+      navigate("/auth")
     }
   }
+  if (loading) return <div>Loading...</div>
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,11 +51,11 @@ export function AccountDropdown({ children }: AccountDropdownProps) {
       <DropdownMenuContent className="w-40" align="end" side="top">
         <DropdownMenuGroup className="h-10 flex">
           <Avatar className="flex justify-center">
-            <AvatarFallback>MT</AvatarFallback>
+            <AvatarFallback>{session?.user?.name.slice(0, 2)}</AvatarFallback>
           </Avatar>
-          <div className="ml-2">
-            <h1 className="text-sm">Full name</h1>
-            <p className="text-[11px] text-gray-500">email@com</p>
+          <div className="ml-2 ">
+            <h1 className="text-xs">{session?.user?.name}</h1>
+            <p className="text-[11px] text-gray-500">{session?.user?.email}</p>
           </div>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
