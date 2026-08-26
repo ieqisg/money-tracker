@@ -26,8 +26,11 @@ export const validateProfile = (formData: ProfileFormType) => {
 };
 
 export const formatNumber = (num: string | number) => {
-  const cleanValue = String(num).replace(/\D/g, '');
-  if (!cleanValue) return ''
+  const cleanValue = String(num).replace(/[^\d.]/g, '');
 
-  return new Intl.NumberFormat('en-US').format(BigInt(cleanValue));
-}
+  if (!cleanValue) return '';
+
+  return new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: 2,
+  }).format(Number(cleanValue));
+};

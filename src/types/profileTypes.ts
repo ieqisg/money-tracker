@@ -6,9 +6,12 @@ export interface ProfileFormType {
   jobTitle: string;
   age: number;
   monthlyIncome: number;
+
 }
 
-export type UserDataType = LoginAuthType & ProfileFormType
-
+export type UserDataType = LoginAuthType & ProfileFormType & {
+  monthlyExpenses: number | null
+  monthlyBalance: number | null
+}
 export type MoneyStatsProps = Pick<ProfileFormType, "monthlyIncome">
 

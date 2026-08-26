@@ -1,18 +1,20 @@
-export type categoriesType = "income" | "expenses" | "all"
+export type transactionType = "income" | "expense" | "saving" | "all"
 export type categoriesProviderProps = {
-  categoryType: categoriesType
+  categoryType: transactionType
 }
 
-export type baseCategoriesType = {
+export type baseTransactionType = {
   income: string[];
-  expenses: string[];
-  all: string[]
+  expense: string[];
+  all: string[];
+  saving: string[];
 }
 
-export const BASE_CATEGORIES: baseCategoriesType = {
-  expenses: ["Food & Dining", "Transportation", "Bills", "Shopping", "Grocery", "Entertainment", "Other"],
+export const BASE_CATEGORIES: baseTransactionType = {
+  expense: ["Food & Dining", "Transportation", "Bills", "Shopping", "Grocery", "Entertainment", "Loan", "Other"],
   income: ["Salary", "Investment", "Other"],
-  all: ["Food & Dining", "Transportation", "Bills", "Shopping", "Grocery", "Entertainment", "Salary", "Investment", "Other"]
+  all: ["Food & Dining", "Transportation", "Bills", "Shopping", "Grocery", "Entertainment", "Salary", "Investment", "Other"],
+  saving: ["Bank", "Cash", "Other"]
 }
 
 

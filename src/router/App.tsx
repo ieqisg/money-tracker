@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "@/pages/dashboard/dashboard";
 import DashboardLayout from "@/layout/dashboardLayout";
 import CompleteProfile from "@/pages/profile/completeProfile";
-import Transactions from "@/pages/dashboard/transactions";
+import Transactions from "@/pages/transactions/transactions";
 import UserProfile from "@/pages/profile/userProfile";
 import Settings from "@/pages/settings/settings";
 // import PrivateRoute from "./PrivateRoute";
