@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function SpendingBreakdown() {
   return (
-    <div className="col-span-1">
+    <div className="md:col-span-2">
       <Card>
         <CardHeader>
           <CardTitle>Spending Breakdown</CardTitle>
@@ -12,7 +12,6 @@ export default function SpendingBreakdown() {
         </CardHeader>
         <CardContent>
           <PieChart />
-
         </CardContent>
       </Card>
     </div>

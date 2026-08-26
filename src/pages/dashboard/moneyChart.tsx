@@ -153,8 +153,7 @@ export function MoneyChart() {
   })
 
   return (
-
-    <Card className="pt-0 md:col-span-3 ">
+    <Card className="pt-0 md:col-span-3">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle className="text-sm md:text-base">Area Chart - Interactive</CardTitle>
