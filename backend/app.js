@@ -1,6 +1,7 @@
 import express from "express";
 import authRoutes from "./routes/authRoutes";
 import profileRoutes from "./routes/profileRoutes";
+import transactionRoutes from "./routes/transactionRoutes"
 import cors from "cors";
 
 const app = express();
@@ -13,5 +14,5 @@ app.use(
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api", profileRoutes);
-
+app.use("/api", transactionRoutes)
 export default app;

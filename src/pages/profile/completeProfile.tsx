@@ -43,28 +43,23 @@ export default function CompleteProfile() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-
-
     const isValid = validations.every((validation) => validation.valid);
 
     if (!isValid) {
       return;
     }
-
     try {
       const result = await createProfile(
         formData,
       );
 
       if (!result.success) {
-        console.log(result);
-        return;
+        return { success: false, message: result.message };
       }
 
-      console.log(result);
+      return { success: true, message: "Profile created successfully" }
     } catch (error) {
-      console.error(error);
+      throw new Error("Unexpected error occured")
     }
   };
 

@@ -5,6 +5,9 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { formatNumber } from "@/hooks/profileValidator";
+import { addTransaction } from "@/api/addTransaction";
+import type { ApiResponse } from "@/types/authTypes";
+import { getCurrentTimeString, getTodayDateString } from "@/hooks/dateAndTime";
 
 export default function AddTransactions() {
   const [formData, setFormData] = useState<transactionsFormType>({
@@ -12,17 +15,27 @@ export default function AddTransactions() {
     category: "",
     amount: Number(""),
     description: "",
-    date: "",
-    time: ""
+    date: getTodayDateString(),
+    time: getCurrentTimeString()
   })
 
   const handleCategoryChange = (newVal: string) => {
     setFormData({ ...formData, category: newVal })
   }
 
-  const handleSubmitTransaction = (e: React.FormEvent) => {
+  const handleSubmitTransaction = async (e: React.FormEvent): Promise<ApiResponse> => {
     e.preventDefault()
-    console.log(formData)
+    try {
+      const result = await addTransaction(formData)
+      if (!result.success) {
+        console.log(result)
+        return { success: false, message: result.message }
+      }
+      console.log(result)
+      return { success: true, message: result.message }
+    } catch (error) {
+      throw new Error("Unexpected error occured")
+    }
   }
 
   return (
@@ -118,7 +131,7 @@ export default function AddTransactions() {
                     <input
                       type="date"
                       className="border border-input p-1.5 rounded-lg w-full"
-                      value={formData.date ?? ""}
+                      value={formData.date}
                       onChange={(e) => setFormData({
                         ...formData,
                         date: e.target.value

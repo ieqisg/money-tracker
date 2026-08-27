@@ -22,7 +22,7 @@ export async function createProfile(req, res) {
     const userId = req.userId;
     if (!userId)
       return res
-        .status(400)
+        .status(401)
         .json({ success: false, message: "User id is required" });
     const profileData = { userId, ...req.body };
     const profileNotValid = validateCreateProfile(req.body);
@@ -32,7 +32,7 @@ export async function createProfile(req, res) {
 
     const result = await createProfileModel(profileData);
     if (!result) {
-      return res.json({ message: result });
+      return res.json({ success: false, message: "No received data", result });
     }
     return res.status(201).json({
       success: true,

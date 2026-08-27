@@ -15,12 +15,12 @@ export const createProfile = async (
     },
     body: JSON.stringify(body),
   });
-
+  const result = await response.json()
   if (!response.ok) {
-    console.log("Error ", response)
-    return { success: false }
+    return { success: false, message: result.message }
   }
-  return response.json();
+  return result
+
 };
 
 export const getProfile = async (): Promise<ApiResponse> => {
