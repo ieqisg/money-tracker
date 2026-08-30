@@ -16,8 +16,8 @@ export default function MoneyStats() {
           </CardTitle >
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
-          <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl">{formatNumber(userData?.monthlyIncome ?? 0)}</span>
+          <PhilippinePeso className="h-5 w-5 " />
+          <span className="text-xl font-bold">{formatNumber(userData?.monthlyIncome ?? 0)}</span>
         </CardContent>
         <CardFooter className="bg-white border-none text-green-600">+8.2% this month</CardFooter>
       </Card>
@@ -30,7 +30,7 @@ export default function MoneyStats() {
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl"> {formatNumber(userData?.monthlyExpenses ?? 0)}</span>
+          <span className="text-xl font-bold"> {formatNumber(userData?.monthlyExpenses ?? 0)}</span>
         </CardContent>
         <CardFooter className="bg-white border-none text-red-600">-8.2% this month</CardFooter>
       </Card>
@@ -43,7 +43,7 @@ export default function MoneyStats() {
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl">{formatNumber(userData?.monthlyBalance ?? 0)}</span>
+          <span className="text-xl font-bold">{formatNumber(userData?.monthlyBalance ?? 0)}</span>
         </CardContent>
         <CardFooter className="bg-white border-none text-green-600">+8.2% this month</CardFooter>
       </Card>
@@ -56,7 +56,7 @@ export default function MoneyStats() {
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl">{formatNumber(userData?.currSavings ?? 0)}</span>
+          <span className="text-xl font-bold">{formatNumber(userData?.currSavings ?? 0)}</span>
         </CardContent>
         <CardFooter className="flex flex-col items-start bg-white border-none text-[11px]  mb-1">
           <h1 className="text-blue-500">Goal: {formatNumber(userData?.goalSavings ?? "")}</h1>

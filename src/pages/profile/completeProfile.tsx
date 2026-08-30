@@ -106,7 +106,7 @@ export default function CompleteProfile() {
                   {touched.currSavings && !validations[0].valid ? (
                     <>
                       <CircleAlert className="h-4 w-4" />
-                      {validations[0].text}
+                      {validations[0].message}
                     </>
                   ) : (
                     ""
@@ -143,7 +143,7 @@ export default function CompleteProfile() {
                   {touched.goalSavings && !validations[1].valid ? (
                     <>
                       <CircleAlert className="h-3 w-3" />
-                      {validations[1].text}
+                      {validations[1].message}
                     </>
                   ) : (
                     ""
@@ -181,7 +181,7 @@ export default function CompleteProfile() {
                 {touched.jobTitle && !validations[2].valid ? (
                   <>
                     <CircleAlert className="h-3 w-3" />
-                    {validations[2].text}
+                    {validations[2].message}
                   </>
                 ) : (
                   ""
@@ -218,7 +218,7 @@ export default function CompleteProfile() {
                 {touched.age && !validations[3].valid ? (
                   <>
                     <CircleAlert className="h-3 w-3" />
-                    {validations[3].text}
+                    {validations[3].message}
                   </>
                 ) : (
                   ""
@@ -254,7 +254,7 @@ export default function CompleteProfile() {
                 {touched.monthlyIncome && !validations[4].valid ? (
                   <>
                     <CircleAlert className="h-3 w-3" />
-                    {validations[4].text}
+                    {validations[4].message}
                   </>
                 ) : (
                   ""

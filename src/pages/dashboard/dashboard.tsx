@@ -13,7 +13,7 @@ export default function Dashboard() {
   if (loading) return <div>Loading...</div>
 
   return (
-    <div className="font-sans  p-6 min-h-screen bg-[#F7F8F3]">
+    <div className="font-sans  p-6 min-h-screen bg-[#edffcc]">
       <div className="mb-4">
         <h1 className="font-bold ">Dashboard</h1>
         <p className="text-xs text-muted-foreground">Get a complete overview of your financial activity</p>

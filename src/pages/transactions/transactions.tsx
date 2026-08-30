@@ -7,7 +7,7 @@ import FilterTransaction from "@/features/filterTransactions";
 export default function Transactions() {
   return (
     <>
-      <div className="flex justify-end space-x-2 mb-2">
+      <div className="flex justify-end space-x-2 mb-2 ">
         <div className="flex flex-row gap-x-3">
           <input type="search" placeholder="Search..." className="border rounded-md placeholder:text-sm p-1 w-full" />
           <FilterTransaction />
@@ -15,7 +15,7 @@ export default function Transactions() {
         </div>
       </div>
       <div className="w-full overflow-x-auto rounded-md border">
-        <Table className="min-w-200">
+        <Table className="min-w-200 bg-[#ffffff]">
           <TableCaption>Recent Transactions</TableCaption>
           <TableHeader className="">
             <TableRow>
