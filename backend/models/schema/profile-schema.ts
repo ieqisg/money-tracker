@@ -11,10 +11,12 @@ export const profile = pgTable("profile", {
   currentSavings: numeric("current_savings", {
     precision: 10,
     scale: 2,
+    mode: "number",
   }).notNull(),
   goalSavings: numeric("goal_savings", {
     precision: 10,
     scale: 2,
+    mode: "number",
   }).notNull(),
   jobTitle: text("job_title").notNull(),
   age: smallint("age").notNull(),
@@ -22,14 +24,16 @@ export const profile = pgTable("profile", {
     precision: 10,
     scale: 2,
   }).notNull(),
-  monthlyExpenses: numeric("monthly_expenses", {
+  monthlyExpense: numeric("monthly_expense", {
     precision: 10,
     scale: 2,
-  }),
+    mode: "number",
+  }).default(0).notNull(),
   monthlyBalance: numeric("monthly_balance", {
     precision: 10,
     scale: 2,
-  })
+    mode: "number",
+  }).default(0).notNull(),
 }, (table) => [index("profile_userId_idx").on(table.userId)],
 );
 

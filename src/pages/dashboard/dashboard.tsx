@@ -1,24 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import Transactions from "../transactions/transactions";
 import { MoneyChart } from "./moneyChart";
 import { useAuth } from "@/context/authContext";
 import MoneyStats from "./moneyStats";
 import SpendingBreakdown from "./spendingBreakdown";
 export default function Dashboard() {
-  const { userData, loading, session } = useAuth()
+  const { loading, session } = useAuth()
 
   if (loading) return <div>Loading...</div>
 
   return (
-    <div className="font-sans  p-6 min-h-screen bg-[#edffcc]">
+    <div className="font-sans  p-6 min-h-screen bg-[#e7e7e7]">
       <div className="mb-4">
         <h1 className="font-bold ">Dashboard</h1>
         <p className="text-xs text-muted-foreground">Get a complete overview of your financial activity</p>
       </div>
-      <Separator className="my-4" />
+      <hr className="my-4 border border-black " />
       <div className="flex justify-between mb-2">
         <div className="flex flex-col">
           <h1 className="">Good afternoon, <span className="font-bold">{session?.user.name.split(" ")[0]}</span></h1>
@@ -40,7 +39,7 @@ export default function Dashboard() {
 
       </div>
       <MoneyStats />
-      <Separator className="my-4" />
+      <hr className="my-4 border border-black " />
       <div className="grid grid-cols-1  md:grid-cols-5 gap-4 ">
         <MoneyChart />
         <SpendingBreakdown />
@@ -49,7 +48,7 @@ export default function Dashboard() {
         <h1 className="font-bold ">Transactions</h1>
         <p className="text-xs text-muted-foreground">Keep track of every income and expense in one place</p>
       </div>
-      <Separator className="my-4" />
+      <hr className="my-4 border border-black " />
       <Transactions />
     </div>
   )

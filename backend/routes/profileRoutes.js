@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createProfile, getProfile } from "../controller/userController";
-import { profileValidation } from "../middleware/profileValidator";
+import { profileValidation } from "../validation/profileValidator";
 import { profileSchemaValidation } from "../validation/profileSchemaValidation";
 import { requireAuth } from "../middleware/authMiddleware";
 const router = Router();

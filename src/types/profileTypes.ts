@@ -10,8 +10,7 @@ export interface ProfileFormType {
 }
 
 export type UserDataType = LoginAuthType & ProfileFormType & {
-  monthlyExpenses: number | null
-  monthlyBalance: number | null
+  monthlyExpense: number | null
 }
 export type MoneyStatsProps = Pick<ProfileFormType, "monthlyIncome">
 

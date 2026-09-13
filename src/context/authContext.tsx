@@ -24,6 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       name: data.name,
       email: data.email,
       password: data.password,
+      callbackURL: "http://localhost:5173/complete-profile",
     });
 
     if (error) {
@@ -100,9 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return data
   }
 
-  useEffect(() => {
 
-  }, [])
 
   useEffect(() => {
     const loadData = async () => {

@@ -45,18 +45,11 @@ export default function AddTransactions() {
   ): Promise<ApiResponse> => {
     e.preventDefault();
 
-    // Validate the form
     const validation = validateTransaction(formData);
-
-    // Get only the invalid fields
     const invalidFields = validation
       .filter((item) => !item.valid)
       .map((item) => item.message);
-
-    // Store the error messages
     setErrors(invalidFields);
-
-    // Stop submission if there are errors
     if (invalidFields.length > 0) {
       return {
         success: false,

@@ -8,9 +8,6 @@ export default function Auth() {
     const savedAuth = sessionStorage.getItem('isRegister')
     return savedAuth ? JSON.parse(savedAuth) : false
   })
-
-
-
   useEffect(() => {
     sessionStorage.setItem('isRegister', JSON.stringify(authChoice))
 

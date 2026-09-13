@@ -11,7 +11,6 @@ import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from "lucide-react";
 
 import { useState, type ReactNode } from "react";
 import { useAuth } from "@/context/authContext";
-import { useNavigate } from "react-router-dom";
 
 type AccountDropdownProps = {
   children: ReactNode;
@@ -20,7 +19,6 @@ type AccountDropdownProps = {
 
 
 export function AccountDropdown({ children }: AccountDropdownProps) {
-  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const { signOut, session } = useAuth()
   const handleSignOut = async (e: React.FormEvent) => {
@@ -32,14 +30,14 @@ export function AccountDropdown({ children }: AccountDropdownProps) {
         console.log(logout.error, logout.message)
         return
       }
-      //reroute to auth page
       console.log("Log out success", logout)
+      sessionStorage.removeItem("isRegister")
+      window.location.reload()
     } catch (error) {
       console.error(error)
       throw new Error("Unexpected error occured, Please try again.")
     } finally {
       setLoading(false)
-      navigate("/auth")
     }
   }
   if (loading) return <div>Loading...</div>

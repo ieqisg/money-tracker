@@ -1,5 +1,4 @@
-import { data } from "react-router-dom";
-import { validateCreateProfile } from "../middleware/profileValidator";
+import { validateCreateProfile } from "../validation/profileValidator";
 import { createProfileModel, findUserByEmail, getProfileModel } from "../models/userModel";
 
 export async function findExistingUser(req, res) {
@@ -56,7 +55,9 @@ export async function getProfile(req, res) {
       goalSavings: Number(result.goal_savings),
       age: result.age,
       jobTitle: result.job_title,
-      monthlyIncome: Number(result.monthly_income)
+      monthlyIncome: Number(result.monthly_income),
+      monthlyExpense: Number(result.monthly_expense),
+      monthlyBalance: Number(result.monthly_balance),
     }
     if (!result) return res.json({ message: result })
     return res.status(201).json({ success: true, data: data, message: "Profile successfully retrieved" })

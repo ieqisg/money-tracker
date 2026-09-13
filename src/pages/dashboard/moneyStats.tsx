@@ -2,10 +2,16 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { useAuth } from "@/context/authContext"
 import { formatNumber } from "@/hooks/profileValidator"
 import { Landmark, PhilippinePeso, TrendingDown, TrendingUp, WalletCards } from "lucide-react"
+import { useEffect } from "react"
 
 
 export default function MoneyStats() {
   const { userData } = useAuth()
+  const balance = (userData?.monthlyIncome ?? 0) - (userData?.monthlyExpense ?? 0)
+
+  useEffect(() => {
+    console.log(userData)
+  })
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <Card >
@@ -30,7 +36,7 @@ export default function MoneyStats() {
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl font-bold"> {formatNumber(userData?.monthlyExpenses ?? 0)}</span>
+          <span className="text-xl font-bold"> {formatNumber(userData?.monthlyExpense ?? 0)}</span>
         </CardContent>
         <CardFooter className="bg-white border-none text-red-600">-8.2% this month</CardFooter>
       </Card>
@@ -43,7 +49,7 @@ export default function MoneyStats() {
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl font-bold">{formatNumber(userData?.monthlyBalance ?? 0)}</span>
+          <span className="text-xl font-bold">{formatNumber(balance)}</span>
         </CardContent>
         <CardFooter className="bg-white border-none text-green-600">+8.2% this month</CardFooter>
       </Card>

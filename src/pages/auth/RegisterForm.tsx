@@ -33,11 +33,15 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
   const handleCreateAccount = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    sessionStorage.removeItem('authChoice');
     try {
       isPasswordStrong(formData.password) ? setIsPassStrong(undefined) : setIsPassStrong(false)
       isPasswordMatched(formData.password, formData.confirmPassword) ? setIsPassMatched(undefined) : setIsPassMatched(false)
       const user = await register(formData)
+      if (!user) {
+        console.log(user)
+        return
+      }
+      window.location.reload()
       console.log(user)
 
     } catch (error) {

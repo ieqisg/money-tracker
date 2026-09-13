@@ -15,7 +15,6 @@ import { createProfile } from "@/api/userProfile";
 import { validateProfile } from "@/hooks/profileValidator";
 import { formatNumber } from "@/hooks/profileValidator";
 import { useTouched } from "@/hooks/useTouched";
-
 export default function CompleteProfile() {
 
   const [formData, setFormData] = useState<ProfileFormType>({
@@ -56,7 +55,7 @@ export default function CompleteProfile() {
       if (!result.success) {
         return { success: false, message: result.message };
       }
-
+      window.location.reload()
       return { success: true, message: "Profile created successfully" }
     } catch (error) {
       throw new Error("Unexpected error occured")

@@ -71,6 +71,27 @@
       "when": 1787678531446,
       "tag": "0009_lean_thunderbolt",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1788241762300,
+      "tag": "0010_opposite_deadpool",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1788241844938,
+      "tag": "0011_kind_bulldozer",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1788275192073,
+      "tag": "0012_narrow_hellion",
+      "breakpoints": true
     }
   ]
 }

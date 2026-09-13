@@ -1,0 +1,1 @@
+ALTER TABLE "profile" RENAME COLUMN "monthly_expenses" TO "monthly_expense";
