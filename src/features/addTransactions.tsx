@@ -14,14 +14,15 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { formatNumber } from "@/hooks/profileValidator";
 import { addTransaction } from "@/api/addTransaction";
-import type { ApiResponse } from "@/types/authTypes";
 import {
   getCurrentTimeString,
   getTodayDateString,
 } from "@/hooks/dateAndTime";
 import { validateTransaction } from "@/hooks/transactionValidator";
+import toast from "react-hot-toast"
 
 export default function AddTransactions() {
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState<transactionsFormType>({
     transType: "income",
     category: "",
@@ -40,43 +41,31 @@ export default function AddTransactions() {
     }));
   };
 
-  const handleSubmitTransaction = async (
-    e: React.FormEvent
-  ): Promise<ApiResponse> => {
+  const handleSubmitTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setLoading(true)
     const validation = validateTransaction(formData);
     const invalidFields = validation
       .filter((item) => !item.valid)
       .map((item) => item.message);
     setErrors(invalidFields);
-    if (invalidFields.length > 0) {
-      return {
-        success: false,
-        message: "Please fix the errors.",
-      };
-    }
+    if (invalidFields.length > 0) return
 
     try {
       const result = await addTransaction(formData);
 
       if (!result.success) {
         console.log(result);
-
-        return {
-          success: false,
-          message: result.message,
-        };
+        toast.error(result.message ?? "An unknown error occured")
+        return
       }
 
       console.log(result);
-
-      return {
-        success: true,
-        message: result.message,
-      };
+      toast.success("Transaction added successfully")
     } catch (error) {
-      throw new Error("Unexpected error occured");
+      toast.error("Unexpected error occured. Please try again");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -293,8 +282,9 @@ export default function AddTransactions() {
               <Button
                 type="submit"
                 variant="outline"
+                disabled={loading}
               >
-                Save Transactions
+                {loading ? "Saving Transaction..." : "Save Transaction"}
               </Button>
             </DialogFooter>
           </form>

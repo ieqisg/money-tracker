@@ -6,13 +6,18 @@ import { MoneyChart } from "./moneyChart";
 import { useAuth } from "@/context/authContext";
 import MoneyStats from "./moneyStats";
 import SpendingBreakdown from "./spendingBreakdown";
+import toast from "react-hot-toast"
 export default function Dashboard() {
   const { loading, session } = useAuth()
 
   if (loading) return <div>Loading...</div>
 
+  const handleToast = () => {
+    toast.success("Tite")
+  }
   return (
     <div className="font-sans  p-6 min-h-screen bg-[#e7e7e7]">
+      <button onClick={handleToast}>Success</button>
       <div className="mb-4">
         <h1 className="font-bold ">Dashboard</h1>
         <p className="text-xs text-muted-foreground">Get a complete overview of your financial activity</p>

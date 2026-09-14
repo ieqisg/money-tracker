@@ -12,10 +12,9 @@ import { ShimmerButton } from "@/components/ui/shimmer-button"
 import { type LoginAuthType, type LoginFormProps } from "@/types/authTypes"
 import { useState } from "react"
 import { useAuth } from "@/context/authContext"
-
 export default function LoginForm({ onRegister }: LoginFormProps) {
-  const [loading, setLoading] = useState<boolean>(false)
   const { login } = useAuth()
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState<LoginAuthType>({
     email: "",
     password: "",
@@ -40,7 +39,6 @@ export default function LoginForm({ onRegister }: LoginFormProps) {
     }
   }
 
-  if (loading) return <div>Loading...</div>
   return (
     <div className="flex flex-col items-center gap-6 py-8">
       <div className="text-center">
@@ -94,10 +92,9 @@ export default function LoginForm({ onRegister }: LoginFormProps) {
 
           </CardContent>
           <CardFooter className="flex-col gap-2 bg-[#edffcc]">
-            <ShimmerButton type="submit" className="w-full" background="rgba(59, 87, 4, 1)" shimmerColor="#9dd241" onClick={handleLogin}>
-              Login
+            <ShimmerButton type="submit" className="w-full" background="rgba(59, 87, 4, 1)" shimmerColor="#9dd241" onClick={handleLogin} disabled={loading}>
+              {loading ? <span>Logging in...</span> : <span>Log in</span>}
             </ShimmerButton>
-
             <span className="text-xs">
               Dont have an account yet?{" "}
               <a onClick={onRegister} className="ml-auto text-xs underline-offset-4 underline text-[#3b5704] cursor-pointer">
