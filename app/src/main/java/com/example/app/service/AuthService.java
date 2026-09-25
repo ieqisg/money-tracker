@@ -1,6 +1,7 @@
 package com.example.app.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.app.model.AuthRepository;
@@ -11,7 +12,11 @@ public class AuthService {
   @Autowired
   private AuthRepository authRepository;
 
-  public void createUser(String email, String hashed_password, boolean isActive) {
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
+  public void createUser(String email, String password, boolean isActive) {
+    String hashed_password = passwordEncoder.encode(password);
     authRepository.insertUser(email, hashed_password, isActive);
   }
 }
