@@ -21,7 +21,7 @@ public class SecurityConfig {
     http
         .cors(cors -> {
         })
-        .csrf(csrf -> csrf.disable()) // safe to disable for a stateless JSON API — see note below
+        .csrf(csrf -> csrf.disable())
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/register", "/api/login").permitAll()

@@ -14,4 +14,10 @@ public class AuthRepository {
     String sql = "INSERT INTO users(email, hashed_password, is_active) VALUES (?, ?, ?)";
     jdbcTemplate.update(sql, email, hashed_password, isActive);
   }
+
+  public boolean emailAlreadyExist(String email) {
+    String sql = "SELECT COUNT(*) FROM users where email = ?";
+    Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+    return count != null && count > 0;
+  }
 }
