@@ -14,18 +14,12 @@ public class AuthDto {
   @Size(min = 8, message = "Password must be greater than 8 characters")
   private String password;
 
-  private boolean isActive;
-
   public String getEmail() {
     return email;
   }
 
   public String getPassword() {
     return password;
-  }
-
-  public boolean getIsActive() {
-    return isActive;
   }
 
   public void setEmail(String email) {
@@ -36,7 +30,4 @@ public class AuthDto {
     this.password = password;
   }
 
-  public void setIsActive(boolean isActive) {
-    this.isActive = isActive;
-  }
 }

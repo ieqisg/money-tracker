@@ -1,12 +1,12 @@
 package com.example.app.exception;
 
 import com.example.app.dto.ApiResponse;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.authentication.BadCredentialsException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,4 +32,8 @@ public class GlobalExceptionHandler {
         .body(new ApiResponse<>("Something went wrong", false, null));
   }
 
+  @ExceptionHandler(BadCredentialsException.class)
+  public ResponseEntity<ApiResponse<Object>> handleInvalidCredentials(BadCredentialsException ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(ex.getMessage(), false, null));
+  }
 }
