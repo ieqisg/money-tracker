@@ -7,9 +7,9 @@ import {
   type LoginAuthType,
   type RegisterAuthType,
 } from "@/types/authTypes";
-
 import type { UserDataType } from "@/types/profileTypes";
 import { getProfile } from "@/api/userProfile";
+import authService from "@/api/authService";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -17,34 +17,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [userData, setUserData] = useState<UserDataType | null>(null)
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const register = async (data: RegisterAuthType): Promise<ApiResponse> => {
-    if (!data)
-      return { success: false, message: "Email or password is required" };
-    const { data: result, error } = await authClient.signUp.email({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      callbackURL: "http://localhost:5173/complete-profile",
-    });
-
-    if (error) {
-      console.log(error, error.message);
-      return {
-        success: false,
-        error: error.message,
-        status: error.status,
-        data: null,
-      };
+  const register = async (credentials: RegisterAuthType): Promise<ApiResponse> => {
+    if (!credentials?.email || !credentials?.password) {
+      return { success: false, message: "Email and password are required" };
     }
-    console.log("Result ", result);
-    return {
-      success: true,
-      data: result,
-      error: null,
-      message: "Register successful",
-      status: 200,
-    };
+    try {
+      const result = await authService.signUp(credentials);
+      return result;
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: "Something went wrong. Please try again." };
+    }
   };
+
 
   const login = async (data: LoginAuthType): Promise<ApiResponse> => {
     if (!data)

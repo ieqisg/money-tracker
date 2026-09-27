@@ -15,9 +15,11 @@ import { isPasswordStrong } from "@/hooks/passwordValidator"
 import { isPasswordMatched } from "@/hooks/passwordValidator"
 import type { RegisterAuthType, RegisterFormProps } from "@/types/authTypes"
 import { useAuth } from "@/context/authContext"
+import { useNavigate } from "react-router-dom"
 
 
 export default function RegisterForm({ onLogin }: RegisterFormProps) {
+  const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
   const { register } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
@@ -37,13 +39,11 @@ export default function RegisterForm({ onLogin }: RegisterFormProps) {
       isPasswordStrong(formData.password) ? setIsPassStrong(undefined) : setIsPassStrong(false)
       isPasswordMatched(formData.password, formData.confirmPassword) ? setIsPassMatched(undefined) : setIsPassMatched(false)
       const user = await register(formData)
-      if (!user) {
+      if (!user.success) {
         console.log(user)
         return
       }
-      window.location.reload()
-      console.log(user)
-
+      navigate("/complete-profile")
     } catch (error) {
       console.error(error)
     } finally {
