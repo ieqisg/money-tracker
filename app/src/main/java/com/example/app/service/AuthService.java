@@ -18,12 +18,13 @@ public class AuthService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  public void register(String email, String password) {
+  public String register(String email, String password) {
     if (authRepository.emailAlreadyExist(email)) {
       throw new EmailAlreadyExistException("Email already exists.");
     }
-    String hashed_password = passwordEncoder.encode(password);
-    authRepository.createUser(email, hashed_password, true);
+    String hashedPassword = passwordEncoder.encode(password);
+    authRepository.createUser(email.toLowerCase(), hashedPassword, true);
+    return jwtService.generateJwtToken(email);
   }
 
   public String login(String email, String password) {
