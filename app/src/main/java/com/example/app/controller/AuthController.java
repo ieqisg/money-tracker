@@ -16,8 +16,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import java.util.Map;
 
 @RestController
 public class AuthController {
@@ -26,52 +29,44 @@ public class AuthController {
   @Autowired
   private AuthService authService;
 
-  @PostMapping("/api/register")
-  public ResponseEntity<ApiResponse<Void>> register(@Valid @RequestBody AuthDto authDto) {
-    String token = authService.register(authDto.getEmail(), authDto.getPassword());
-
-    ResponseCookie cookie = ResponseCookie.from("token", token)
+  private ResponseCookie authCookie(String token, Duration maxAge) {
+    return ResponseCookie.from("token", token)
         .httpOnly(true)
         .secure(false)
         .sameSite("Lax")
         .path("/")
-        .maxAge(Duration.ofMillis(jwtExpiration))
+        .maxAge(maxAge)
         .build();
+  }
 
+  @GetMapping("/api/user")
+  public ApiResponse<Map<String, Object>> checkAuth(Authentication authentication) {
+    String userId = authentication.getName();
+    boolean profileComplete = authService.isProfileComplete(userId);
+    return new ApiResponse<>("Authenticated", true, Map.of(
+        "isProfileComplete", profileComplete));
+  }
+
+  @PostMapping("/api/register")
+  public ResponseEntity<ApiResponse<Void>> register(@Valid @RequestBody AuthDto authDto) {
+    String token = authService.register(authDto.getEmail(), authDto.getPassword());
     return ResponseEntity.status(HttpStatus.CREATED)
-        .header(HttpHeaders.SET_COOKIE, cookie.toString())
+        .header(HttpHeaders.SET_COOKIE, authCookie(token, Duration.ofMillis(jwtExpiration)).toString())
         .body(new ApiResponse<>("Registered successfully", true, null));
   }
 
   @PostMapping("/api/login")
-  public ResponseEntity<ApiResponse<Void>> login(
-      @Valid @RequestBody AuthDto authDto) {
-
-    String token = authService.login(
-        authDto.getEmail(),
-        authDto.getPassword());
-
-    ResponseCookie cookie = ResponseCookie.from("token", token)
-        .httpOnly(true)
-        .secure(false)
-        .sameSite("Lax")
-        .path("/")
-        .maxAge(Duration.ofMillis(jwtExpiration))
-        .build();
-
+  public ResponseEntity<ApiResponse<Void>> login(@Valid @RequestBody AuthDto authDto) {
+    String token = authService.login(authDto.getEmail(), authDto.getPassword());
     return ResponseEntity.ok()
-        .header(HttpHeaders.SET_COOKIE, cookie.toString())
+        .header(HttpHeaders.SET_COOKIE, authCookie(token, Duration.ofMillis(jwtExpiration)).toString())
         .body(new ApiResponse<>("Login success", true, null));
   }
 
   @PostMapping("/api/logout")
   public ResponseEntity<ApiResponse<Void>> logout() {
-    ResponseCookie cookie = ResponseCookie.from("token", "")
-        .httpOnly(true).secure(false).sameSite("Lax").path("/").maxAge(0).build();
-
     return ResponseEntity.ok()
-        .header(HttpHeaders.SET_COOKIE, cookie.toString())
+        .header(HttpHeaders.SET_COOKIE, authCookie("", Duration.ZERO).toString())
         .body(new ApiResponse<>("Logged out", true, null));
   }
-
 }

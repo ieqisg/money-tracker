@@ -1,56 +1,46 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { authClient } from "@/lib/authClient";
 import {
-  type Session,
   type AuthContextType,
   type ApiResponse,
   type LoginAuthType,
   type RegisterAuthType,
+  type AuthDataType,
 } from "@/types/authTypes";
-import type { UserDataType } from "@/types/profileTypes";
-import { getProfile } from "@/api/userProfile";
 import authService from "@/api/authService";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [userData, setUserData] = useState<UserDataType | null>(null)
-  const [session, setSession] = useState<Session | null>(null);
+  const API_URL = import.meta.env.VITE_API_URL
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true);
+  const [authData, setAuthData] = useState<AuthDataType | null>(null)
   const register = async (credentials: RegisterAuthType): Promise<ApiResponse> => {
-    if (!credentials?.email || !credentials?.password) {
-      return { success: false, message: "Email and password are required" };
-    }
     try {
-      const result = await authService.signUp(credentials);
-      return result;
+      const signUpResult = await authService.signUp(credentials);
+      if (!signUpResult.success) {
+        return { success: false, message: signUpResult.message }
+      }
+      return signUpResult
     } catch (error) {
-      console.error(error);
-      return { success: false, message: "Something went wrong. Please try again." };
+      console.error(error)
+      return { success: false, message: "Something went wrong" }
     }
   };
 
 
-  const login = async (data: LoginAuthType): Promise<ApiResponse> => {
-    if (!data)
-      return { success: false, message: "Email or password is required" };
-    const { data: result, error } = await authClient.signIn.email({
-      email: data.email,
-      password: data.password,
-      callbackURL: "http://localhost:5173/dashboard",
-    });
-
-    if (error) {
-      return { success: false, error: error.message, status: error.status };
+  const login = async (credentials: LoginAuthType): Promise<ApiResponse> => {
+    try {
+      const loginResult = await authService.login(credentials);
+      if (!loginResult.success) {
+        return { success: false, message: loginResult.message }
+      }
+      return loginResult
+    } catch (error) {
+      console.error(error)
+      return { success: false, message: "Something went wrong" }
     }
-    console.log("Result ", result);
-    return {
-      success: true,
-      data: result,
-      error: null,
-      message: "Login successful",
-      status: 200,
-    };
   };
 
   const signOut = async (): Promise<ApiResponse> => {
@@ -61,68 +51,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { success: true, status: 200, message: "Sign out successful" };
   };
 
-  const getSession = async (): Promise<ApiResponse> => {
-    const { data: session, error } = await authClient.getSession();
-    if (error) {
-      return { success: false, error: error.message, status: error.status };
-    }
-    if (!session)
-      return { success: false, message: "Failed to retrieve session" };
-    console.log("Session ", session);
-
-    return {
-      success: true,
-      data: session,
-      error: null,
-      message: "Session retrieved",
-    };
-  };
-
-  const getUserData = async (): Promise<ApiResponse> => {
-    const data = await getProfile()
-    if (!data) {
-      return { success: false, message: "No data retrieved", data }
-    }
-    return data
-  }
-
-
 
   useEffect(() => {
-    const loadData = async () => {
+    const checkAuth = async () => {
       try {
-        const sessionData = await getSession();
-        if (!sessionData.success) {
-          return { message: "No session retrieved" };
-        }
-        if (sessionData.error) {
-          return { error: sessionData.error, message: sessionData.message };
-        }
-        setSession(sessionData.data);
-        const fetchUserData = await getUserData()
-        if (!fetchUserData.success) {
-          return { message: "No data retrieved" }
-        }
-        if (fetchUserData.error) {
-          return { error: fetchUserData.error, message: fetchUserData.message }
-        }
-        setUserData(fetchUserData.data)
-
-      } catch (error) {
-        throw new Error("Unexpected error occured");
+        const res = await fetch(`${API_URL}/api/user`, { credentials: "include" });
+        if (!res.ok) throw new Error();
+        const data = await res.json()
+        setIsAuthenticated(true);
+        setAuthData(data)
+      } catch {
+        setIsAuthenticated(false);
+        setAuthData(null)
       } finally {
         setLoading(false);
       }
     };
-
-    loadData()
+    checkAuth();
   }, []);
-
 
 
   return (
     <AuthContext.Provider
-      value={{ register, login, signOut, getSession, session, loading, userData }}
+      value={{ register, login, signOut, loading, isAuthenticated, authData }}
     >
       {children}
     </AuthContext.Provider>

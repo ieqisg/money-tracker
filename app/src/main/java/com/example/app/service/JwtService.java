@@ -28,9 +28,10 @@ public class JwtService {
     this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
   }
 
-  public String generateJwtToken(String email) {
+  public String generateJwtToken(String userId, String email) {
     return Jwts.builder()
-        .subject(email)
+        .subject(userId)
+        .claim("email", email)
         .issuedAt(new Date())
         .expiration(new Date((new Date()).getTime() + jwtExpiration))
         .signWith(key)
@@ -46,7 +47,7 @@ public class JwtService {
     }
   }
 
-  public String extractEmail(String token) {
+  public String extractUserId(String token) {
     return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
   }
 

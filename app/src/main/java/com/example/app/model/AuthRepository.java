@@ -1,9 +1,13 @@
 package com.example.app.model;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.example.app.record.AuthRecord;
 
 @Repository
 public class AuthRepository {
@@ -11,9 +15,10 @@ public class AuthRepository {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  public void createUser(String email, String hashed_password, boolean isActive) {
-    String sql = "INSERT INTO users(email, hashed_password, is_active, is_profile_complete) VALUES (?, ?, ?, ?)";
-    jdbcTemplate.update(sql, email, hashed_password, true, false);
+  public UUID createUser(String email, String hashedPassword, boolean isActive) {
+    String sql = "INSERT INTO users(email, hashed_password, is_active, is_profile_complete) " +
+        "VALUES (?, ?, ?, ?) RETURNING id";
+    return jdbcTemplate.queryForObject(sql, UUID.class, email, hashedPassword, isActive, false);
   }
 
   public boolean emailAlreadyExist(String email) {
@@ -22,19 +27,23 @@ public class AuthRepository {
     return count != null && count > 0;
   }
 
-  public String findUserByEmail(String email) {
-    String sql = "SELECT email FROM users where email = ?";
-    String foundEmail = jdbcTemplate.queryForObject(sql, String.class, email);
-    return "The email is: " + foundEmail;
-  }
-
-  public String findHashedPasswordByEmail(String email) {
-    String sql = "SELECT hashed_password FROM users WHERE email = ?";
+  public AuthRecord findAuthRecordByEmail(String email) {
+    String sql = "SELECT id, hashed_password FROM users WHERE email = ?";
     try {
-      return jdbcTemplate.queryForObject(sql, String.class, email);
+      return jdbcTemplate.queryForObject(sql,
+          (rs, rowNum) -> new AuthRecord((UUID) rs.getObject("id"), rs.getString("hashed_password")), email);
     } catch (EmptyResultDataAccessException ex) {
       return null;
     }
+  }
 
+  public boolean isProfileComplete(UUID id) {
+    String sql = "SELECT is_profile_complete FROM users WHERE id = ?";
+    try {
+      Boolean result = jdbcTemplate.queryForObject(sql, Boolean.class, id);
+      return result != null && result;
+    } catch (EmptyResultDataAccessException ex) {
+      return false;
+    }
   }
 }

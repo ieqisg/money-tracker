@@ -2,13 +2,10 @@ import { useAuth } from "@/context/authContext";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function AuthRouter() {
-  const { session, loading } = useAuth();
+  const { isAuthenticated, loading, authData } = useAuth();
   if (loading) return <div>Loading...</div>;
-  if (session) {
-    if (!session?.user.isProfileComplete) {
-      return <Navigate to="/complete-profile" replace />;
-    }
-    return <Navigate to="/dashboard" replace />;
+  if (isAuthenticated) {
+    return <Navigate to={authData?.isProfileComplete ? "/dashboard" : "/complete-profile"} replace />;
   }
   return <Outlet />;
 }

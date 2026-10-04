@@ -1,5 +1,10 @@
 import { authClient } from "@/lib/authClient";
-import type { UserDataType } from "./profileTypes";
+
+export type AuthDataType = {
+  isAuthenticated: boolean;
+  isProfileComplete: boolean;
+}
+
 export type LoginFormProps = {
   onRegister: () => void;
 };
@@ -20,11 +25,10 @@ export type LoginAuthType = Pick<RegisterAuthType, "email" | "password">;
 export type AuthContextType = {
   register: (data: RegisterAuthType) => Promise<ApiResponse>;
   login: (data: LoginAuthType) => Promise<ApiResponse>;
-  getSession: () => Promise<ApiResponse>;
   signOut: () => Promise<ApiResponse>;
-  session: Session | null;
-  userData: UserDataType | null
+  isAuthenticated: boolean;
   loading: boolean;
+  authData: AuthDataType | null
 };
 
 export type ApiResponse = {

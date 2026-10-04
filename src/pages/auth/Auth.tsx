@@ -14,7 +14,6 @@ export default function Auth() {
   }, [authChoice])
 
 
-
   return (
     <div
       className={`h-screen overflow-hidden md:grid transition-[grid-template-columns] duration-500 ease-in-out ${authChoice
