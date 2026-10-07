@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { authClient } from "@/lib/authClient";
 import {
   type AuthContextType,
   type ApiResponse,
@@ -8,11 +7,13 @@ import {
   type AuthDataType,
 } from "@/types/authTypes";
 import authService from "@/api/authService";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const API_URL = import.meta.env.VITE_API_URL
+  const navigate = useNavigate()
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true);
   const [authData, setAuthData] = useState<AuthDataType | null>(null)
@@ -22,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!signUpResult.success) {
         return { success: false, message: signUpResult.message }
       }
+      navigate("/complete-profile")
       return signUpResult
     } catch (error) {
       console.error(error)
@@ -36,6 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!loginResult.success) {
         return { success: false, message: loginResult.message }
       }
+      navigate("/dashboard")
       return loginResult
     } catch (error) {
       console.error(error)
@@ -44,11 +47,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async (): Promise<ApiResponse> => {
-    const { error } = await authClient.signOut();
-    if (error) {
-      return { success: false, error: error.message, status: error.status };
+    try {
+      const logoutResult = await authService.logout();
+      if (!logoutResult.success) {
+        return { success: false, message: logoutResult.message }
+      }
+      return logoutResult
+    } catch (error) {
+      console.error(error)
+      return { success: false, message: "Something went wrong" }
     }
-    return { success: true, status: 200, message: "Sign out successful" };
+
   };
 
 

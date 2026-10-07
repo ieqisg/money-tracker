@@ -8,7 +8,7 @@ import MoneyStats from "./moneyStats";
 import SpendingBreakdown from "./spendingBreakdown";
 import toast from "react-hot-toast"
 export default function Dashboard() {
-  const { loading, session } = useAuth()
+  const { loading } = useAuth()
 
   if (loading) return <div>Loading...</div>
 

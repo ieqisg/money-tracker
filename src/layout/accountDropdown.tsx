@@ -20,7 +20,7 @@ type AccountDropdownProps = {
 
 export function AccountDropdown({ children }: AccountDropdownProps) {
   const [loading, setLoading] = useState<boolean>(false)
-  const { signOut, session } = useAuth()
+  const { signOut } = useAuth()
   const handleSignOut = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)

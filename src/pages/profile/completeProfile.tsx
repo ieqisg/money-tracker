@@ -15,8 +15,9 @@ import { createProfile } from "@/api/userProfile";
 import { validateProfile } from "@/hooks/profileValidator";
 import { formatNumber } from "@/hooks/profileValidator";
 import { useTouched } from "@/hooks/useTouched";
+import { useNavigate } from "react-router-dom";
 export default function CompleteProfile() {
-
+  const navigate = useNavigate()
   const [formData, setFormData] = useState<ProfileFormType>({
     currSavings: Number(""),
     goalSavings: Number(""),
@@ -55,7 +56,7 @@ export default function CompleteProfile() {
       if (!result.success) {
         return { success: false, message: result.message };
       }
-      window.location.reload()
+      navigate("/dashboard")
       return { success: true, message: "Profile created successfully" }
     } catch (error) {
       throw new Error("Unexpected error occured")

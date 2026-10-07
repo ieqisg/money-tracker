@@ -34,6 +34,15 @@ class AuthService {
     return response
   }
 
+  async logout(): Promise<ApiResponse> {
+    const logoutUser = await fetch(`${API_URL}/api/logout`, {
+      method: "POST",
+      credentials: "include",
+    })
+    const response: ApiResponse = await logoutUser.json()
+    return response
+  }
+
 
 
 }
