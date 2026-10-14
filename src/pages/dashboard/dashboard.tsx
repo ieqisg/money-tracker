@@ -22,12 +22,12 @@ export default function Dashboard() {
 
 
   return (
-    <div className="font-sans  p-6 min-h-screen bg-[#e7e7e7]">
+    <div className="font-sans  p-6 min-h-screen bg-white">
       <div className="mb-4">
         <h1 className="font-bold ">Dashboard</h1>
         <p className="text-xs text-muted-foreground">Get a complete overview of your financial activity</p>
       </div>
-      <hr className="my-4 border border-black " />
+      <hr className="my-4 border border-gray-400" />
       <div className="flex justify-between mb-2">
         <div className="flex flex-col">
           <h1 className="">Good afternoon, <span className="font-bold">{`${data?.firstName} ${data?.lastName}`}</span></h1>
@@ -49,7 +49,7 @@ export default function Dashboard() {
 
       </div>
       <MoneyStats currSavings={data?.currSavings ?? 0} monthlyIncome={data?.monthlyIncome ?? 0} goalSavings={data?.goalSavings ?? 0} />
-      <hr className="my-4 border border-black " />
+      <hr className="my-4 border border-gray-400" />
       <div className="grid grid-cols-1  md:grid-cols-5 gap-4 ">
         <MoneyChart />
         <SpendingBreakdown />
@@ -58,7 +58,7 @@ export default function Dashboard() {
         <h1 className="font-bold ">Transactions</h1>
         <p className="text-xs text-muted-foreground">Keep track of every income and expense in one place</p>
       </div>
-      <hr className="my-4 border border-black " />
+      <hr className="my-4 border border-gray-400" />
       <Transactions />
     </div>
   )
