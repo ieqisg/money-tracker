@@ -1,8 +1,13 @@
 package com.example.app.record;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
-public record ProfileRecord(UUID user_id, BigDecimal currSavings, float goalSavings, String jobTitle, int age,
+public record ProfileRecord(
+    String firstName,
+    String lastName,
+    int age,
+    String jobTitle,
+    BigDecimal currSavings,
+    BigDecimal goalSavings,
     BigDecimal monthlyIncome) {
 }

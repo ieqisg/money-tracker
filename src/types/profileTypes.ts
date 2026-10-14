@@ -1,6 +1,7 @@
-import type { LoginAuthType } from "./authTypes";
 
 export interface ProfileFormType {
+  firstName: string;
+  lastName: string;
   currSavings: number;
   goalSavings: number;
   jobTitle: string;
@@ -9,8 +10,5 @@ export interface ProfileFormType {
 
 }
 
-export type UserDataType = LoginAuthType & ProfileFormType & {
-  monthlyExpense: number | null
-}
-export type MoneyStatsProps = Pick<ProfileFormType, "monthlyIncome">
+export type MoneyStatsProps = Pick<ProfileFormType, "currSavings" | "goalSavings" | "monthlyIncome">
 

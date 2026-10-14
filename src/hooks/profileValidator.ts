@@ -22,6 +22,14 @@ export const validateProfile = (formData: ProfileFormType) => {
       message: "Monthly Income should be greater than 0",
       valid: formData.monthlyIncome > 0,
     },
+    {
+      message: "First name shoud not be empty",
+      valid: formData.firstName !== ""
+    },
+    {
+      message: "Last name should not be empty",
+      valid: formData.lastName !== ""
+    }
   ];
 };
 

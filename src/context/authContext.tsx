@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!loginResult.success) {
         return { success: false, message: loginResult.message }
       }
-      navigate("/dashboard")
+      window.location.reload();
       return loginResult
     } catch (error) {
       console.error(error)

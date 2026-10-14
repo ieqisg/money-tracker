@@ -5,29 +5,32 @@ import "./index.css"
 import App from './router/App'
 import { AuthProvider } from './context/authContext'
 import { Toaster } from 'react-hot-toast'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-
+const queryClient = new QueryClient()
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Toaster
-          position='bottom-center'
-          toastOptions={{
-            duration: 3000,
-            success: {
-              style: {
-                color: 'green'
+        <QueryClientProvider client={queryClient}>
+          <Toaster
+            position='bottom-center'
+            toastOptions={{
+              duration: 3000,
+              success: {
+                style: {
+                  color: 'green'
+                }
+              },
+              error: {
+                style: {
+                  color: 'red'
+                }
               }
-            },
-            error: {
-              style: {
-                color: 'red'
-              }
-            }
-          }}
-        />
-        <App />
+            }}
+          />
+          <App />
+        </QueryClientProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

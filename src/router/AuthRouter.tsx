@@ -5,7 +5,7 @@ export default function AuthRouter() {
   const { isAuthenticated, loading, authData } = useAuth();
   if (loading) return <div>Loading...</div>;
   if (isAuthenticated) {
-    return <Navigate to={authData?.isProfileComplete ? "/dashboard" : "/complete-profile"} replace />;
+    return <Navigate to={authData?.data?.isProfileComplete ? "/dashboard" : "/complete-profile"} replace />;
   }
   return <Outlet />;
 }

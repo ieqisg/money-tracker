@@ -49,11 +49,11 @@ export function AccountDropdown({ children }: AccountDropdownProps) {
       <DropdownMenuContent className="w-40" align="end" side="top">
         <DropdownMenuGroup className="h-10 flex">
           <Avatar className="flex justify-center">
-            <AvatarFallback>{session?.user?.name.slice(0, 2)}</AvatarFallback>
+            <AvatarFallback>Tite</AvatarFallback>
           </Avatar>
           <div className="ml-2 ">
-            <h1 className="text-xs">{session?.user?.name}</h1>
-            <p className="text-[11px] text-gray-500">{session?.user?.email}</p>
+            <h1 className="text-xs">Burat</h1>
+            <p className="text-[11px] text-gray-500">Burat</p>
           </div>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

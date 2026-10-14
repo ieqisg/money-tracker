@@ -6,18 +6,23 @@ import { MoneyChart } from "./moneyChart";
 import { useAuth } from "@/context/authContext";
 import MoneyStats from "./moneyStats";
 import SpendingBreakdown from "./spendingBreakdown";
-import toast from "react-hot-toast"
+import { useQuery } from "@tanstack/react-query";
+import ProfileService from "@/api/profileService";
+import toast from "react-hot-toast";
 export default function Dashboard() {
   const { loading } = useAuth()
-
+  const { data, error } = useQuery(
+    {
+      queryKey: ['profile'],
+      queryFn: () => ProfileService.getProfile(),
+      staleTime: Infinity,
+    })
+  if (error) toast.error("An unknown error occured")
   if (loading) return <div>Loading...</div>
 
-  const handleToast = () => {
-    toast.success("Tite")
-  }
+
   return (
     <div className="font-sans  p-6 min-h-screen bg-[#e7e7e7]">
-      <button onClick={handleToast}>Success</button>
       <div className="mb-4">
         <h1 className="font-bold ">Dashboard</h1>
         <p className="text-xs text-muted-foreground">Get a complete overview of your financial activity</p>
@@ -25,7 +30,7 @@ export default function Dashboard() {
       <hr className="my-4 border border-black " />
       <div className="flex justify-between mb-2">
         <div className="flex flex-col">
-          <h1 className="">Good afternoon, <span className="font-bold">{session?.user.name.split(" ")[0]}</span></h1>
+          <h1 className="">Good afternoon, <span className="font-bold">{`${data?.firstName} ${data?.lastName}`}</span></h1>
           <span className="text-sm text-muted-foreground"> Here's your financial overview</span>
         </div>
         <DropdownMenu>
@@ -43,7 +48,7 @@ export default function Dashboard() {
         </DropdownMenu>
 
       </div>
-      <MoneyStats />
+      <MoneyStats currSavings={data?.currSavings ?? 0} monthlyIncome={data?.monthlyIncome ?? 0} goalSavings={data?.goalSavings ?? 0} />
       <hr className="my-4 border border-black " />
       <div className="grid grid-cols-1  md:grid-cols-5 gap-4 ">
         <MoneyChart />

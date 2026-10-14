@@ -9,24 +9,46 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 
 public class ProfileDto {
-  @NotNull
+  @NotBlank(message = "First name should not be empty")
+  private String firstName;
+
+  @NotBlank(message = "Last name should not be empty")
+  private String lastName;
+
+  @NotNull(message = "Current savings should not be empty")
   @PositiveOrZero
   private BigDecimal currSavings;
 
-  @NotNull
-  @PositiveOrZero
+  @NotNull(message = "Goal Savings should not be empty")
+  @PositiveOrZero(message = "Goal Savings should not be empty")
   private BigDecimal goalSavings;
 
-  @NotBlank
+  @NotBlank(message = "Job Title should not be empty")
   private String jobTitle;
 
   @Min(13)
   @Max(120)
   private int age;
 
-  @NotNull
-  @PositiveOrZero
+  @NotNull(message = "Monthly Income should not be empty")
+  @PositiveOrZero(message = "Monthly Income should be greater than 0")
   private BigDecimal monthlyIncome;
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
   public BigDecimal getCurrSavings() {
     return currSavings;

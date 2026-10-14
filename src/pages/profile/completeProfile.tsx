@@ -11,14 +11,15 @@ import { useState } from "react";
 import { CircleUser, CircleAlert, PhilippinePeso, BriefcaseBusiness } from "lucide-react";
 import { type ProfileFormType } from "@/types/profileTypes";
 import { Button } from "@/components/ui/button";
-import { createProfile } from "@/api/userProfile";
 import { validateProfile } from "@/hooks/profileValidator";
 import { formatNumber } from "@/hooks/profileValidator";
 import { useTouched } from "@/hooks/useTouched";
-import { useNavigate } from "react-router-dom";
+import profileService from "@/api/profileService";
+import toast from "react-hot-toast";
 export default function CompleteProfile() {
-  const navigate = useNavigate()
   const [formData, setFormData] = useState<ProfileFormType>({
+    firstName: "",
+    lastName: "",
     currSavings: Number(""),
     goalSavings: Number(""),
     jobTitle: "",
@@ -30,6 +31,8 @@ export default function CompleteProfile() {
     touched,
     touch,
   } = useTouched({
+    firstName: false,
+    lastName: false,
     currSavings: false,
     goalSavings: false,
     jobTitle: false,
@@ -49,19 +52,23 @@ export default function CompleteProfile() {
       return;
     }
     try {
-      const result = await createProfile(
-        formData,
-      );
-
+      const result = await profileService.createProfile(formData);
       if (!result.success) {
-        return { success: false, message: result.message };
+        console.log(result)
+        toast.error(result.message ?? "An unknown error occured")
+        return
       }
-      navigate("/dashboard")
-      return { success: true, message: "Profile created successfully" }
+      setTimeout(function() {
+        window.location.reload();
+      }, 1000);
+      toast.success("Profile created successfully")
+      return
     } catch (error) {
       throw new Error("Unexpected error occured")
     }
   };
+
+
 
   return (
     <div className="min-h-screen flex justify-center items-center relative bg-white">
@@ -78,6 +85,78 @@ export default function CompleteProfile() {
 
         <CardContent className="pt-0">
           <form className="space-y-3" onSubmit={handleSubmit}>
+            <div className="flex flex-row gap-x-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="currSavings" className="text-black">
+                  First Name
+                </Label>
+                <div className="relative">
+                  <PhilippinePeso className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+
+                  <Input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    placeholder="John"
+                    className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.firstName && !validations[5].valid ? "border-red-600" : ""}`}
+                    value={formData.firstName || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        firstName: e.target.value
+                      })
+                    }
+                    onBlur={() => touch("firstName")}
+                  />
+                </div>
+                <span className="text-xs text-red-600 flex gap-x-1">
+                  {touched.firstName && !validations[5].valid ? (
+                    <>
+                      <CircleAlert className="h-4 w-4" />
+                      {validations[5].message}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </span>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="goalSavings" className="text-black">
+                  Last Name
+                </Label>
+                <div className="relative">
+                  <PhilippinePeso className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    placeholder="Doe"
+                    className={`pl-10 h-9 focus-visible:ring-0 focus-visible:ring-offset-0  text-black ${touched.lastName && !validations[6].valid ? "border-red-600" : ""}`}
+                    value={formData.lastName || ""}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        lastName: e.target.value
+                      })
+                    }
+                    onBlur={() => touch("lastName")}
+
+                  />
+                </div>
+                <span className="text-xs text-red-600 flex  gap-x-1">
+                  {touched.lastName && !validations[6].valid ? (
+                    <>
+                      <CircleAlert className="h-3 w-3" />
+                      {validations[6].message}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </span>
+              </div>
+            </div>
             <div className="flex flex-row gap-x-2">
               <div className="space-y-1.5">
                 <Label htmlFor="currSavings" className="text-black">

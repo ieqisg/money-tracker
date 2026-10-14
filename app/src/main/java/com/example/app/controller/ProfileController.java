@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app.dto.ProfileDto;
+import com.example.app.record.ProfileRecord;
 import com.example.app.service.ProfileService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class ProfileController {
@@ -22,13 +25,18 @@ public class ProfileController {
   private ProfileService profileService;
 
   @GetMapping("/api/profile")
-  public String getProfile(Authentication authentication) {
-    return "Tite";
+  public ResponseEntity<ProfileRecord> getProfile(Authentication authentication) {
+    UUID userId = UUID.fromString(authentication.getName());
+    ProfileRecord profile = profileService.getProfile(userId);
+    if (profile == null) {
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(profile);
   }
 
   @PostMapping("/api/profile")
   public ResponseEntity<ProfileDto> completeProfile(
-      @RequestBody ProfileDto profileDto,
+      @Valid @RequestBody ProfileDto profileDto,
       Authentication authentication) {
 
     UUID userId = UUID.fromString(authentication.getName());
@@ -39,7 +47,9 @@ public class ProfileController {
         profileDto.getGoalSavings(),
         profileDto.getJobTitle(),
         profileDto.getAge(),
-        profileDto.getMonthlyIncome());
+        profileDto.getMonthlyIncome(),
+        profileDto.getFirstName(),
+        profileDto.getLastName());
 
     return new ResponseEntity<>(profileDto, HttpStatus.CREATED);
   }

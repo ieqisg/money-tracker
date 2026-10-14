@@ -13,12 +13,10 @@ import { Settings } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ChevronsUpDown } from 'lucide-react';
 import { AccountDropdown } from "@/layout/accountDropdown";
-import { useAuth } from "@/context/authContext";
 import { Link } from "react-router-dom";
 
 
 export function AppSidebar() {
-  const { session } = useAuth()
   return (
     <Sidebar>
       <SidebarHeader className="grid grid-cols-[auto_max-content] ">
@@ -65,11 +63,11 @@ export function AppSidebar() {
         <AccountDropdown>
           <SidebarMenuButton className="h-15">
             <Avatar>
-              <AvatarFallback>{session?.user?.name.slice(0, 2)}</AvatarFallback>
+              <AvatarFallback>Tite</AvatarFallback>
             </Avatar>
             <div className="">
-              <h1>{session?.user.name}</h1>
-              <p className="text-xs text-gray-500">{session?.user.email}</p>
+              <h1>Tite</h1>
+              <p className="text-xs text-gray-500">Tite</p>
             </div>
             <div className=" ml-auto">
               <ChevronsUpDown />

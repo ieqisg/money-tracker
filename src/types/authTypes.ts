@@ -1,8 +1,11 @@
 import { authClient } from "@/lib/authClient";
 
 export type AuthDataType = {
-  isAuthenticated: boolean;
-  isProfileComplete: boolean;
+  success: boolean;
+  data?: {
+    isProfileComplete: boolean;
+    isAuthenticated?: boolean;
+  };
 }
 
 export type LoginFormProps = {
