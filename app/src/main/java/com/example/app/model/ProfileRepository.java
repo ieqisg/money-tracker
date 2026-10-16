@@ -18,15 +18,15 @@ public class ProfileRepository {
   private JdbcTemplate jdbcTemplate;
 
   @Transactional(rollbackFor = Exception.class)
-  public void completeProfile(UUID userId, BigDecimal currSavings, BigDecimal goalSavings,
-      String jobTitle, int age, BigDecimal monthlyIncome, String firstName, String lastName) {
+  public void completeProfile(UUID userId, ProfileRecord profile) {
 
     jdbcTemplate.update(
         """
             INSERT INTO profile (user_id, current_savings, goal_savings, job_title, age, monthly_income, first_name, last_name)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
-        userId, currSavings, goalSavings, jobTitle, age, monthlyIncome, firstName, lastName);
+        userId, profile.currSavings(), profile.goalSavings(), profile.jobTitle(), profile.age(),
+        profile.monthlyIncome(), profile.firstName(), profile.lastName());
 
     int updated = jdbcTemplate.update(
         "UPDATE users SET is_profile_complete = true WHERE id = ?", userId);

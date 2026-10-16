@@ -1,6 +1,5 @@
 package com.example.app.service;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,8 @@ public class ProfileService {
   @Autowired
   private ProfileRepository profileRepository;
 
-  public void completeProfile(UUID userId, BigDecimal currSavings, BigDecimal goalSavings, String jobTitle, int age,
-      BigDecimal monthlyIncome, String firstName, String lastName) {
-    profileRepository.completeProfile(userId, currSavings, goalSavings, jobTitle, age, monthlyIncome, firstName,
-        lastName);
+  public void completeProfile(UUID userId, ProfileRecord profile) {
+    profileRepository.completeProfile(userId, profile);
   }
 
   public ProfileRecord getProfile(UUID userId) {

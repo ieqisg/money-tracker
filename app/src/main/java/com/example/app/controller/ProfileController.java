@@ -41,16 +41,15 @@ public class ProfileController {
 
     UUID userId = UUID.fromString(authentication.getName());
 
-    profileService.completeProfile(
-        userId,
+    ProfileRecord profile = new ProfileRecord(
+        profileDto.getFirstName(),
+        profileDto.getLastName(),
+        profileDto.getAge(),
+        profileDto.getJobTitle(),
         profileDto.getCurrSavings(),
         profileDto.getGoalSavings(),
-        profileDto.getJobTitle(),
-        profileDto.getAge(),
-        profileDto.getMonthlyIncome(),
-        profileDto.getFirstName(),
-        profileDto.getLastName());
-
+        profileDto.getMonthlyIncome());
+    profileService.completeProfile(userId, profile);
     return new ResponseEntity<>(profileDto, HttpStatus.CREATED);
   }
 }
