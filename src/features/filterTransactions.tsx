@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { BASE_CATEGORIES, type transactionType } from "@/lib/categories";
+import { BASE_CATEGORIES, type TransactionType } from "@/lib/categories";
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 
 export default function FilterTransaction() {
-  const [transType] = useState<transactionType>("income");
+  const [transType] = useState<TransactionType>("INCOME");
 
   return (
     <Select>

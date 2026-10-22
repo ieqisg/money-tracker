@@ -24,7 +24,7 @@ import toast from "react-hot-toast"
 export default function AddTransactions() {
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState<transactionsFormType>({
-    transType: "income",
+    transactionType: "INCOME",
     category: "",
     amount: Number(""),
     description: "",
@@ -43,25 +43,21 @@ export default function AddTransactions() {
 
   const handleSubmitTransaction = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true)
     const validation = validateTransaction(formData);
     const invalidFields = validation
       .filter((item) => !item.valid)
       .map((item) => item.message);
     setErrors(invalidFields);
     if (invalidFields.length > 0) return
-
+    setLoading(true)
     try {
       const result = await addTransaction(formData);
 
       if (!result.success) {
-        console.log(result);
         toast.error(result.message ?? "An unknown error occured")
         return
       }
-
-      console.log(result);
-      toast.success("Transaction added successfully")
+      toast.success(result.message ?? "Tite")
     } catch (error) {
       toast.error("Unexpected error occured. Please try again");
     } finally {
@@ -106,13 +102,13 @@ export default function AddTransactions() {
                   <label className="flex gap-1">
                     <input
                       type="radio"
-                      name="transType"
-                      value="income"
-                      checked={formData.transType === "income"}
+                      name="transactionType"
+                      value="INCOME"
+                      checked={formData.transactionType === "INCOME"}
                       onChange={() =>
                         setFormData((prevData) => ({
                           ...prevData,
-                          transType: "income",
+                          transactionType: "INCOME",
                           category: "",
                         }))
                       }
@@ -123,13 +119,13 @@ export default function AddTransactions() {
                   <label className="flex gap-1">
                     <input
                       type="radio"
-                      name="transType"
-                      value="expense"
-                      checked={formData.transType === "expense"}
+                      name="transactionType"
+                      value="EXPENSE"
+                      checked={formData.transactionType === "EXPENSE"}
                       onChange={() =>
                         setFormData((prevData) => ({
                           ...prevData,
-                          transType: "expense",
+                          transactionType: "EXPENSE",
                           category: "",
                         }))
                       }
@@ -140,13 +136,13 @@ export default function AddTransactions() {
                   <label className="flex gap-1">
                     <input
                       type="radio"
-                      name="transType"
-                      value="saving"
-                      checked={formData.transType === "saving"}
+                      name="transactionType"
+                      value="SAVINGS"
+                      checked={formData.transactionType === "SAVINGS"}
                       onChange={() =>
                         setFormData((prevData) => ({
                           ...prevData,
-                          transType: "saving",
+                          transactionType: "SAVINGS",
                           category: "",
                         }))
                       }
@@ -158,7 +154,7 @@ export default function AddTransactions() {
 
               {/* Category */}
               <CategoriesProvider
-                categoryType={formData.transType}
+                categoryType={formData.transactionType}
                 onCategoryChange={handleCategoryChange}
                 currentValue={formData.category}
               />

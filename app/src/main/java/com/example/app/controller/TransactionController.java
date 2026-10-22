@@ -23,7 +23,7 @@ public class TransactionController {
   private TransactionService transactionService;
 
   @PostMapping("/api/transaction")
-  public ResponseEntity<TransactionDto> addTransaction(@Valid @RequestBody TransactionDto transactionDto,
+  public ResponseEntity<String> addTransaction(@Valid @RequestBody TransactionDto transactionDto,
       Authentication authentication) {
     UUID userId = UUID.fromString(authentication.getName());
 
@@ -35,7 +35,7 @@ public class TransactionController {
         transactionDto.getDate(),
         transactionDto.getTime());
     transactionService.addTransaction(userId, transaction);
-    return new ResponseEntity<>(transactionDto, HttpStatus.CREATED);
+    return ResponseEntity.status(HttpStatus.CREATED).body("Transaction added successfully");
 
   }
 

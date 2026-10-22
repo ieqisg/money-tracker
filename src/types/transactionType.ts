@@ -1,9 +1,9 @@
-import type { transactionType } from "@/lib/categories";
+import type { TransactionType } from "@/lib/categories";
 
 
 
 export type transactionsFormType = {
-  transType: transactionType;
+  transactionType: TransactionType;
   category: string;
   amount: number;
   description: string;
