@@ -13,9 +13,8 @@ export async function addTransaction(body: transactionsFormType): Promise<ApiRes
     },
     body: JSON.stringify(body)
   })
-  const apiMessage = await response.text()
   if (!response.ok) {
     return { success: false, message: await response.json() }
   }
-  return { success: true, message: apiMessage }
+  return { success: true }
 }

@@ -1,13 +1,14 @@
 package com.example.app.model;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 
 import com.example.app.record.ProfileRecord;
 
@@ -49,7 +50,7 @@ public class ProfileRepository {
           rs.getBigDecimal("monthly_income")),
           userId);
     } catch (EmptyResultDataAccessException ex) {
-      return null;
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found");
     }
   }
 

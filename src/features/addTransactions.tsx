@@ -57,7 +57,7 @@ export default function AddTransactions() {
         toast.error(result.message ?? "An unknown error occured")
         return
       }
-      toast.success(result.message ?? "Tite")
+      toast.success("Transaction added successfully")
     } catch (error) {
       toast.error("Unexpected error occured. Please try again");
     } finally {
