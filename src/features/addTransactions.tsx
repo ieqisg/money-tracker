@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { formatNumber } from "@/hooks/profileValidator";
-import { addTransaction } from "@/api/addTransaction";
+import transactionService from "@/api/transactionService";
 import {
   getCurrentTimeString,
   getTodayDateString,
@@ -51,7 +51,7 @@ export default function AddTransactions() {
     if (invalidFields.length > 0) return
     setLoading(true)
     try {
-      const result = await addTransaction(formData);
+      const result = await transactionService.addTransaction(formData);
 
       if (!result.success) {
         toast.error(result.message ?? "An unknown error occured")

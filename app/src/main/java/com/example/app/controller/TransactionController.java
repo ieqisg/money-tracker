@@ -27,7 +27,7 @@ public class TransactionController {
 
   @GetMapping("/api/transaction")
   public ResponseEntity<List<TransactionRecord>> getTransaction(Authentication authentication,
-      @RequestParam(defaultValue = "20") int limit,
+      @RequestParam(defaultValue = "10") int limit,
       @RequestParam(defaultValue = "0") int offset) {
 
     UUID userId = UUID.fromString(authentication.getName());
