@@ -1,10 +1,21 @@
+import transactionService from "@/api/transactionService"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { formatNumber } from "@/hooks/profileValidator"
-import type { MoneyStatsProps } from "@/types/profileTypes"
+import { useProfile } from "@/hooks/useProfile"
+import { useQuery } from "@tanstack/react-query"
 import { Landmark, PhilippinePeso, TrendingDown, TrendingUp, WalletCards } from "lucide-react"
 
 
-export default function MoneyStats({ currSavings, goalSavings, monthlyIncome }: MoneyStatsProps) {
+export default function MoneyStats() {
+  const { data: profile } = useProfile()
+  const { data: summary } = useQuery({
+    queryKey: ['summary'],
+    queryFn: () => transactionService.getSummary(),
+    staleTime: Infinity,
+  })
+
+  const totalIncome = ((profile?.monthlyIncome ?? 0) + (summary?.total_income ?? 0))
+  const totalSavings = ((profile?.currSavings ?? 0) + (summary?.total_savings ?? 0))
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <Card >
@@ -14,11 +25,13 @@ export default function MoneyStats({ currSavings, goalSavings, monthlyIncome }: 
             <h1><TrendingUp className="h-5 w-5 text-green-600" /></h1>
           </CardTitle >
         </CardHeader>
-        <CardContent className="flex flex-row items-center mt-4">
-          <PhilippinePeso className="h-5 w-5 " />
-          <span className="text-xl font-bold">{formatNumber(monthlyIncome ?? 0)}</span>
+        <CardContent className="flex flex-col mt-4">
+          <span className="flex flex-row items-center text-xl font-bold"><PhilippinePeso className="h-5 w-5 " />{formatNumber(totalIncome ?? 0)}</span>
+          <p className="flex flex-row items-center text-xs mt-2 text-slate-500 font-bold">Salary:  <PhilippinePeso className="h-3 w-3" />
+            <span className="text-black ">{formatNumber(profile?.monthlyIncome ?? 0)}</span>
+          </p>
         </CardContent>
-        <CardFooter className="bg-white border-none text-green-600">+8.2% this month</CardFooter>
+        <CardFooter className="bg-white border-none text-green-600 ">+8.2% this month</CardFooter>
       </Card>
       <Card >
         <CardHeader>
@@ -29,9 +42,9 @@ export default function MoneyStats({ currSavings, goalSavings, monthlyIncome }: 
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl font-bold"> {formatNumber(0)}</span>
+          <span className="text-xl font-bold"> {formatNumber(summary?.total_expense ?? 0)}</span>
         </CardContent>
-        <CardFooter className="bg-white border-none text-red-600">-8.2% this month</CardFooter>
+        <CardFooter className=" bg-white border-none text-red-600 mt-6">-8.2% this month</CardFooter>
       </Card>
       <Card >
         <CardHeader>
@@ -42,9 +55,9 @@ export default function MoneyStats({ currSavings, goalSavings, monthlyIncome }: 
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl font-bold">{formatNumber(0)}</span>
+          <span className="text-xl font-bold">{formatNumber((totalIncome ?? 0) - (summary?.total_expense ?? 0))}</span>
         </CardContent>
-        <CardFooter className="bg-white border-none text-green-600">+8.2% this month</CardFooter>
+        <CardFooter className="bg-white border-none text-green-600 mt-6">+8.2% this month</CardFooter>
       </Card>
       <Card >
         <CardHeader>
@@ -55,19 +68,19 @@ export default function MoneyStats({ currSavings, goalSavings, monthlyIncome }: 
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl font-bold">{formatNumber(currSavings ?? 0)}</span>
+          <span className="text-xl font-bold">{formatNumber(totalSavings)}</span>
         </CardContent>
-        <CardFooter className="flex flex-col items-start bg-white border-none text-[11px]  mb-1">
-          <h1 className="text-blue-500">Goal: {formatNumber(goalSavings ?? "")}</h1>
+        <CardFooter className="flex flex-col items-start bg-white border-none text-[11px] mt-5 ">
+          <h1 className="text-blue-500">Goal: {formatNumber(profile?.goalSavings ?? "")}</h1>
           <progress
             className="w-full h-2 border-none bg-gray-200 rounded-full overflow-hidden
                  [&::-webkit-progress-bar]:bg-gray-200 
                  [&::-webkit-progress-value]:bg-blue-600 [&::-webkit-progress-value]:rounded-full
                  [&::-moz-progress-bar]:bg-blue-600 [&::-moz-progress-bar]:rounded-full"
-            max={goalSavings}
-            value={currSavings}
+            max={profile?.goalSavings ?? 0}
+            value={totalSavings}
           >
-            {currSavings}%
+            {totalSavings}%
           </progress>
         </CardFooter>
       </Card>

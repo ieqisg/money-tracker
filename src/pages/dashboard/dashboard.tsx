@@ -6,17 +6,11 @@ import { MoneyChart } from "./moneyChart";
 import { useAuth } from "@/context/authContext";
 import MoneyStats from "./moneyStats";
 import SpendingBreakdown from "./spendingBreakdown";
-import { useQuery } from "@tanstack/react-query";
-import ProfileService from "@/api/profileService";
 import toast from "react-hot-toast";
+import { useProfile } from "@/hooks/useProfile";
 export default function Dashboard() {
   const { loading } = useAuth()
-  const { data, error } = useQuery(
-    {
-      queryKey: ['profile'],
-      queryFn: () => ProfileService.getProfile(),
-      staleTime: Infinity,
-    })
+  const { data: profile, error } = useProfile()
   if (error) toast.error("An unknown error occured")
   if (loading) return <div>Loading...</div>
 
@@ -30,7 +24,7 @@ export default function Dashboard() {
       <hr className="my-4 border border-gray-400" />
       <div className="flex justify-between mb-2">
         <div className="flex flex-col">
-          <h1 className="">Good afternoon, <span className="font-bold">{`${data?.firstName} ${data?.lastName}`}</span></h1>
+          <h1 className="">Good afternoon, <span className="font-bold">{`${profile?.firstName} ${profile?.lastName}`}</span></h1>
           <span className="text-sm text-muted-foreground"> Here's your financial overview</span>
         </div>
         <DropdownMenu>
@@ -48,7 +42,7 @@ export default function Dashboard() {
         </DropdownMenu>
 
       </div>
-      <MoneyStats currSavings={data?.currSavings ?? 0} monthlyIncome={data?.monthlyIncome ?? 0} goalSavings={data?.goalSavings ?? 0} />
+      <MoneyStats />
       <hr className="my-4 border border-gray-400" />
       <div className="grid grid-cols-1  md:grid-cols-5 gap-4 ">
         <MoneyChart />

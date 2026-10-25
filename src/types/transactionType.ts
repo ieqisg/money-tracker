@@ -1,6 +1,10 @@
 import type { TransactionType } from "@/lib/categories";
 
-
+export type MoneySummary = {
+  total_income: number;
+  total_expense: number;
+  total_savings: number;
+}
 
 export type transactionsFormType = {
   transactionType: TransactionType;
