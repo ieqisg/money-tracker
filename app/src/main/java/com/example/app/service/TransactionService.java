@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.app.model.TransactionRepository;
+import com.example.app.record.SummaryRecord;
 import com.example.app.record.TransactionRecord;
 
 @Service
@@ -20,5 +21,9 @@ public class TransactionService {
 
   public List<TransactionRecord> getTransaction(UUID userId, int limit, int offset) {
     return transactionRepository.getTransaction(userId, limit, offset);
+  }
+
+  public SummaryRecord getSummary(UUID userId) {
+    return transactionRepository.getSummary(userId);
   }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app.dto.TransactionDto;
+import com.example.app.record.SummaryRecord;
 import com.example.app.record.TransactionRecord;
 import com.example.app.service.TransactionService;
 
@@ -52,6 +53,13 @@ public class TransactionController {
     transactionService.addTransaction(userId, transaction);
     return ResponseEntity.status(HttpStatus.CREATED).build();
 
+  }
+
+  @GetMapping("/api/summary")
+  public ResponseEntity<SummaryRecord> getSummary(Authentication authentication) {
+    UUID userId = UUID.fromString(authentication.getName());
+    SummaryRecord summary = transactionService.getSummary(userId);
+    return ResponseEntity.ok(summary);
   }
 
 }

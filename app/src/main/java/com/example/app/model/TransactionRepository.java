@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.app.enums.TransactionTypeEnum;
+import com.example.app.record.SummaryRecord;
 import com.example.app.record.TransactionRecord;
 
 @Repository
@@ -49,5 +50,22 @@ public class TransactionRepository {
         transaction.amount(),
         transaction.date(),
         transaction.time());
+  }
+
+  public SummaryRecord getSummary(UUID userId) {
+    String sql = """
+        SELECT
+          COALESCE(SUM(CASE WHEN transaction_type = 'INCOME'  THEN amount END), 0) AS total_income,
+          COALESCE(SUM(CASE WHEN transaction_type = 'EXPENSE' THEN amount END), 0) AS total_expense,
+          COALESCE(SUM(CASE WHEN transaction_type = 'SAVINGS'  THEN amount END), 0) AS total_savings
+        FROM transactions
+        WHERE user_id = ?
+          AND "date" >= date_trunc('month', CURRENT_DATE)
+          AND "date" <  date_trunc('month', CURRENT_DATE) + INTERVAL '1 month'
+        """;
+    return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new SummaryRecord(
+        rs.getBigDecimal("total_income"),
+        rs.getBigDecimal("total_expense"),
+        rs.getBigDecimal("total_savings")), userId);
   }
 }
