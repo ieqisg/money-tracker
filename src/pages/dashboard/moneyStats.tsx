@@ -27,8 +27,8 @@ export default function MoneyStats() {
         </CardHeader>
         <CardContent className="flex flex-col mt-4">
           <span className="flex flex-row items-center text-xl font-bold"><PhilippinePeso className="h-5 w-5 " />{formatNumber(totalIncome ?? 0)}</span>
-          <p className="flex flex-row items-center text-xs mt-2 text-slate-500 font-bold">Salary:  <PhilippinePeso className="h-3 w-3" />
-            <span className="text-black ">{formatNumber(profile?.monthlyIncome ?? 0)}</span>
+          <p className="flex flex-row items-center text-xs mt-2 text-slate-500 ">salary:  <PhilippinePeso className="h-3 w-3" />
+            <span className="font-semibold">{formatNumber(profile?.monthlyIncome ?? 0)}</span>
           </p>
         </CardContent>
         <CardFooter className="bg-white border-none text-green-600 ">+8.2% this month</CardFooter>
@@ -66,9 +66,9 @@ export default function MoneyStats() {
             <h1><Landmark className="h-5 w-5 text-blue-600" /></h1>
           </CardTitle >
         </CardHeader>
-        <CardContent className="flex flex-row items-center mt-4">
-          <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl font-bold">{formatNumber(totalSavings)}</span>
+        <CardContent className="flex flex-col justify-start mt-4">
+          <span className="flex flex-row items-center text-xl font-bold"><PhilippinePeso className="h-5 w-5" />{formatNumber(totalSavings)}</span>
+          <span className="flex flex-row items-center text-xs text-slate-500">orig. savings: <PhilippinePeso className="h-3 w-3" /><span className="font-semibold">{formatNumber(profile?.currSavings ?? 0)}</span></span>
         </CardContent>
         <CardFooter className="flex flex-col items-start bg-white border-none text-[11px] mt-5 ">
           <h1 className="text-blue-500">Goal: {formatNumber(profile?.goalSavings ?? "")}</h1>

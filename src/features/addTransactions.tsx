@@ -20,9 +20,10 @@ import {
 } from "@/hooks/dateAndTime";
 import { validateTransaction } from "@/hooks/transactionValidator";
 import toast from "react-hot-toast"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function AddTransactions() {
-  const [loading, setLoading] = useState(false)
+  const queryClient = useQueryClient()
   const [formData, setFormData] = useState<transactionsFormType>({
     transactionType: "INCOME",
     category: "",
@@ -33,6 +34,17 @@ export default function AddTransactions() {
   });
 
   const [errors, setErrors] = useState<string[]>([]);
+  const mutation = useMutation({
+    mutationFn: (data: transactionsFormType) => transactionService.addTransaction(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
+      queryClient.invalidateQueries({ queryKey: ['transaction'] });
+      toast.success('Transaction added successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Unexpected error occurred. Please try again');
+    },
+  });
 
   const handleCategoryChange = (newVal: string) => {
     setFormData((prevData) => ({
@@ -49,20 +61,8 @@ export default function AddTransactions() {
       .map((item) => item.message);
     setErrors(invalidFields);
     if (invalidFields.length > 0) return
-    setLoading(true)
-    try {
-      const result = await transactionService.addTransaction(formData);
-
-      if (!result.success) {
-        toast.error(result.message ?? "An unknown error occured")
-        return
-      }
-      toast.success("Transaction added successfully")
-    } catch (error) {
-      toast.error("Unexpected error occured. Please try again");
-    } finally {
-      setLoading(false)
-    }
+    console.log(formData)
+    mutation.mutate(formData)
   };
 
   return (
@@ -278,9 +278,9 @@ export default function AddTransactions() {
               <Button
                 type="submit"
                 variant="outline"
-                disabled={loading}
+                disabled={mutation.isPending}
               >
-                {loading ? "Saving Transaction..." : "Save Transaction"}
+                {mutation.isPending ? "Saving Transaction..." : "Save Transaction"}
               </Button>
             </DialogFooter>
           </form>

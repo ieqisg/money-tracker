@@ -119,7 +119,7 @@ export default function Transactions() {
               >
                 <TableCell className="flex flex-col justify-self-start items-center ">
                   <span>{transaction.date}</span>
-                  <span className="text-black text-xs">{transaction.time}</span>
+                  <span className="text-black text-xs">{transaction.time.slice(0, 5)}</span>
 
                 </TableCell>
                 <TableCell>{transaction.description}</TableCell>
