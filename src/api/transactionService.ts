@@ -15,10 +15,7 @@ class TransactionService {
     });
 
     if (!response.ok) {
-      return {
-        success: false,
-        message: await response.json(),
-      };
+      throw new Error("Failed to add transaction. Please try again later")
     }
 
     return { success: true };

@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.app.enums.TransactionTypeEnum;
 import com.example.app.model.TransactionRepository;
+import com.example.app.record.CategoryTotalRecord;
 import com.example.app.record.SummaryRecord;
 import com.example.app.record.TransactionRecord;
 
@@ -23,7 +25,11 @@ public class TransactionService {
     return transactionRepository.getTransaction(userId, limit, offset);
   }
 
-  public SummaryRecord getSummary(UUID userId) {
-    return transactionRepository.getSummary(userId);
+  public SummaryRecord getSummary(UUID userId, int year, int month) {
+    return transactionRepository.getSummary(userId, year, month);
+  }
+
+  public List<CategoryTotalRecord> getCategoryBreakdown(UUID userId, TransactionTypeEnum type, int year, int month) {
+    return transactionRepository.getCategoryBreakdown(userId, type, year, month);
   }
 }

@@ -1,4 +1,7 @@
+import { useTransaction } from "@/hooks/useTransaction";
+import { BASE_CATEGORIES } from "@/lib/categories";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
+import { useEffect } from "react";
 import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip);
@@ -37,6 +40,11 @@ const categories = [
 ];
 
 export default function PieChart() {
+  useEffect(() => {
+    console.log(BASE_CATEGORIES["EXPENSE"])
+  })
+  const { data: transactionSummary } = useTransaction()
+
   const total = categories.reduce(
     (sum, category) => sum + category.amount,
     0

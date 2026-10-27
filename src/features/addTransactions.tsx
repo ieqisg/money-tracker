@@ -34,10 +34,11 @@ export default function AddTransactions() {
   });
 
   const [errors, setErrors] = useState<string[]>([]);
-  const mutation = useMutation({
+  const addTransaction = useMutation({
     mutationFn: (data: transactionsFormType) => transactionService.addTransaction(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['summary'] });
+
+      queryClient.invalidateQueries({ queryKey: ['transactionSummary'] });
       queryClient.invalidateQueries({ queryKey: ['transaction'] });
       toast.success('Transaction added successfully');
     },
@@ -62,7 +63,7 @@ export default function AddTransactions() {
     setErrors(invalidFields);
     if (invalidFields.length > 0) return
     console.log(formData)
-    mutation.mutate(formData)
+    addTransaction.mutate(formData)
   };
 
   return (
@@ -278,9 +279,9 @@ export default function AddTransactions() {
               <Button
                 type="submit"
                 variant="outline"
-                disabled={mutation.isPending}
+                disabled={addTransaction.isPending}
               >
-                {mutation.isPending ? "Saving Transaction..." : "Save Transaction"}
+                {addTransaction.isPending ? "Saving Transaction..." : "Save Transaction"}
               </Button>
             </DialogFooter>
           </form>

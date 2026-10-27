@@ -1,21 +1,16 @@
-import transactionService from "@/api/transactionService"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { formatNumber } from "@/hooks/profileValidator"
 import { useProfile } from "@/hooks/useProfile"
-import { useQuery } from "@tanstack/react-query"
+import { useTransaction } from "@/hooks/useTransaction"
 import { Landmark, PhilippinePeso, TrendingDown, TrendingUp, WalletCards } from "lucide-react"
 
 
 export default function MoneyStats() {
   const { data: profile } = useProfile()
-  const { data: summary } = useQuery({
-    queryKey: ['summary'],
-    queryFn: () => transactionService.getSummary(),
-    staleTime: Infinity,
-  })
+  const { data: transactionSummary } = useTransaction();
 
-  const totalIncome = ((profile?.monthlyIncome ?? 0) + (summary?.total_income ?? 0))
-  const totalSavings = ((profile?.currSavings ?? 0) + (summary?.total_savings ?? 0))
+  const totalIncome = ((profile?.monthlyIncome ?? 0) + (transactionSummary?.total_income ?? 0))
+  const totalSavings = ((profile?.currSavings ?? 0) + (transactionSummary?.total_savings ?? 0))
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <Card >
@@ -42,7 +37,7 @@ export default function MoneyStats() {
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl font-bold"> {formatNumber(summary?.total_expense ?? 0)}</span>
+          <span className="text-xl font-bold"> {formatNumber(transactionSummary?.total_expense ?? 0)}</span>
         </CardContent>
         <CardFooter className=" bg-white border-none text-red-600 mt-6">-8.2% this month</CardFooter>
       </Card>
@@ -55,7 +50,7 @@ export default function MoneyStats() {
         </CardHeader>
         <CardContent className="flex flex-row items-center mt-4">
           <PhilippinePeso className="h-5 w-5" />
-          <span className="text-xl font-bold">{formatNumber((totalIncome ?? 0) - (summary?.total_expense ?? 0))}</span>
+          <span className="text-xl font-bold">{formatNumber((totalIncome ?? 0) - (transactionSummary?.total_expense ?? 0))}</span>
         </CardContent>
         <CardFooter className="bg-white border-none text-green-600 mt-6">+8.2% this month</CardFooter>
       </Card>
@@ -70,7 +65,7 @@ export default function MoneyStats() {
           <span className="flex flex-row items-center text-xl font-bold"><PhilippinePeso className="h-5 w-5" />{formatNumber(totalSavings)}</span>
           <span className="flex flex-row items-center text-xs text-slate-500">orig. savings: <PhilippinePeso className="h-3 w-3" /><span className="font-semibold">{formatNumber(profile?.currSavings ?? 0)}</span></span>
         </CardContent>
-        <CardFooter className="flex flex-col items-start bg-white border-none text-[11px] mt-5 ">
+        <CardFooter className="flex flex-col items-start bg-white border-none text-[11px] mt-2 ">
           <h1 className="text-blue-500">Goal: {formatNumber(profile?.goalSavings ?? "")}</h1>
           <progress
             className="w-full h-2 border-none bg-gray-200 rounded-full overflow-hidden
