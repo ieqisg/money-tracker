@@ -1,5 +1,10 @@
 import type { TransactionType } from "@/lib/categories";
 
+export type TransactionBreakdown = {
+  category: string;
+  total: number;
+}
+
 export type MoneySummary = {
   total_income: number;
   total_expense: number;

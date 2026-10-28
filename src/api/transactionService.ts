@@ -1,5 +1,5 @@
 import type { ApiResponse } from '@/types/authTypes';
-import type { MoneySummary, transactionsFormType } from '@/types/transactionType';
+import type { MoneySummary, TransactionBreakdown, transactionsFormType } from '@/types/transactionType';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -49,6 +49,18 @@ class TransactionService {
       throw new Error("Failed to fetch summary")
     }
     return await response.json()
+  }
+
+  async getBreakdown(transactionType: string, year: number, month: number): Promise<TransactionBreakdown[]> {
+    const response = await fetch(`${API_URL}/api/breakdown?type=${transactionType}&year=${year}&month=${month}`, {
+      method: "GET",
+      credentials: "include"
+    })
+    if (!response.ok) {
+      throw new Error("Faled to fetch breakdown")
+    }
+    return await response.json()
+
   }
 }
 

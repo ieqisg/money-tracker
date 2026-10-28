@@ -40,6 +40,7 @@ export default function AddTransactions() {
 
       queryClient.invalidateQueries({ queryKey: ['transactionSummary'] });
       queryClient.invalidateQueries({ queryKey: ['transaction'] });
+      queryClient.invalidateQueries({ queryKey: ['transactionBreakdown'] })
       toast.success('Transaction added successfully');
     },
     onError: (error) => {
