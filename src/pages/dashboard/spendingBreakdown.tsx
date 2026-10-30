@@ -1,8 +1,10 @@
 import PieChart from "@/components/ui/pieChart";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import type { DateType } from "@/types/DateType";
 
 
-export default function SpendingBreakdown() {
+export default function SpendingBreakdown({ year, month }: DateType) {
+
   return (
     <div className="md:col-span-2">
       <Card>
@@ -11,7 +13,7 @@ export default function SpendingBreakdown() {
           <CardDescription>Breakdown of your expenses</CardDescription>
         </CardHeader>
         <CardContent>
-          <PieChart />
+          <PieChart year={year} month={month} />
         </CardContent>
       </Card>
     </div>

@@ -39,8 +39,8 @@ class TransactionService {
     return await response.json();
   }
 
-  async getSummary(): Promise<MoneySummary> {
-    const response = await fetch(`${API_URL}/api/summary`, {
+  async getSummary(year: number, month: number): Promise<MoneySummary> {
+    const response = await fetch(`${API_URL}/api/summary?year=${year}&month=${month}`, {
       method: 'GET',
       credentials: 'include',
     }

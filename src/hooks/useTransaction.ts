@@ -1,9 +1,9 @@
 import transactionService from "@/api/transactionService";
 import { useQuery } from "@tanstack/react-query";
 
-export const useTransactionSummary = () => useQuery({
-  queryKey: ['transactionSummary'],
-  queryFn: () => transactionService.getSummary(),
+export const useTransactionSummary = (year: number, month: number) => useQuery({
+  queryKey: ['transactionSummary', year, month],
+  queryFn: () => transactionService.getSummary(year, month),
   staleTime: Infinity,
 })
 

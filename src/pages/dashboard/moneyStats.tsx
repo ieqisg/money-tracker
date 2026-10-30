@@ -2,12 +2,13 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { formatNumber } from "@/hooks/profileValidator"
 import { useProfile } from "@/hooks/useProfile"
 import { useTransactionSummary } from "@/hooks/useTransaction"
+import type { DateType } from "@/types/DateType"
 import { Landmark, PhilippinePeso, TrendingDown, TrendingUp, WalletCards } from "lucide-react"
 
 
-export default function MoneyStats() {
+export default function MoneyStats({ year, month }: DateType) {
   const { data: profile } = useProfile()
-  const { data: transactionSummary } = useTransactionSummary();
+  const { data: transactionSummary } = useTransactionSummary(year, month);
 
   const totalIncome = ((profile?.monthlyIncome ?? 0) + (transactionSummary?.total_income ?? 0))
   const totalSavings = ((profile?.currSavings ?? 0) + (transactionSummary?.total_savings ?? 0))
