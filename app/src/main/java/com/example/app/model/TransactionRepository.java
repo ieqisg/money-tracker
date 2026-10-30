@@ -20,13 +20,20 @@ public class TransactionRepository {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  public List<TransactionRecord> getTransaction(UUID userId, int limit, int offset) {
+  public List<TransactionRecord> getTransaction(
+      UUID userId, int year, int month, int limit, int offset) {
+
     String sql = """
-        SELECT transaction_type, category, amount, description, date, time
-        FROM transactions WHERE user_id = ?
-        ORDER BY date DESC, time DESC
+        SELECT id, transaction_type, category, amount, description, "date", "time"
+        FROM transactions
+        WHERE user_id = ?
+          AND "date" >= ?
+          AND "date" <  ?
+        ORDER BY "date" DESC, "time" DESC, id DESC
         LIMIT ? OFFSET ?
         """;
+
+    LocalDate start = LocalDate.of(year, month, 1);
 
     return jdbcTemplate.query(sql, (rs, rowNum) -> new TransactionRecord(
         TransactionTypeEnum.valueOf(rs.getString("transaction_type").toUpperCase()),
@@ -34,7 +41,7 @@ public class TransactionRepository {
         rs.getBigDecimal("amount"),
         rs.getString("description"),
         rs.getString("date"),
-        rs.getString("time")), userId, limit, offset);
+        rs.getString("time")), userId, start, start.plusMonths(1), limit, offset);
 
   }
 

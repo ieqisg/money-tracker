@@ -76,7 +76,7 @@ export default function Dashboard() {
         <p className="text-xs text-muted-foreground">Keep track of every income and expense in one place</p>
       </div>
       <hr className="my-4 border border-gray-400" />
-      <Transactions />
+      <Transactions year={selectedYear} month={selectedMonth + 1} />
     </div>
   )
 }

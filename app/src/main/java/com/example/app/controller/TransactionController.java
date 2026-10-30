@@ -31,11 +31,13 @@ public class TransactionController {
 
   @GetMapping("/api/transaction")
   public ResponseEntity<List<TransactionRecord>> getTransaction(Authentication authentication,
+      @RequestParam(required = true) int year,
+      @RequestParam(required = true) int month,
       @RequestParam(defaultValue = "10") int limit,
       @RequestParam(defaultValue = "0") int offset) {
 
     UUID userId = UUID.fromString(authentication.getName());
-    List<TransactionRecord> transaction = transactionService.getTransaction(userId, Math.min(limit, 100),
+    List<TransactionRecord> transaction = transactionService.getTransaction(userId, year, month, Math.min(limit, 100),
         Math.max(offset, 0));
     return ResponseEntity.ok(transaction);
 
@@ -61,37 +63,29 @@ public class TransactionController {
   @GetMapping("/api/summary")
   public ResponseEntity<SummaryRecord> getSummary(
       Authentication authentication,
-      @RequestParam(required = false) Integer year,
-      @RequestParam(required = false) Integer month) {
+      @RequestParam(required = true) Integer year,
+      @RequestParam(required = true) Integer month) {
 
     UUID userId = UUID.fromString(authentication.getName());
-    LocalDate today = LocalDate.now();
 
-    int y = year != null ? year : today.getYear();
-    int m = month != null ? month : today.getMonthValue();
-
-    if (m < 1 || m > 12) {
+    if (month < 1 || month > 12) {
       return ResponseEntity.badRequest().build();
     }
-
-    return ResponseEntity.ok(transactionService.getSummary(userId, y, m));
+    return ResponseEntity.ok(transactionService.getSummary(userId, year, month));
   }
 
   @GetMapping("/api/breakdown")
   public ResponseEntity<List<CategoryTotalRecord>> breakdown(
       Authentication authentication,
       @RequestParam TransactionTypeEnum type,
-      @RequestParam(required = false) Integer year,
-      @RequestParam(required = false) Integer month) {
+      @RequestParam(required = true) int year,
+      @RequestParam(required = true) int month) {
 
     UUID userId = UUID.fromString(authentication.getName());
-    LocalDate today = LocalDate.now();
-    int y = year != null ? year : today.getYear();
-    int m = month != null ? month : today.getMonthValue();
 
-    if (m < 1 || m > 12) {
+    if (month < 1 || month > 12) {
       return ResponseEntity.badRequest().build();
     }
-    return ResponseEntity.ok(transactionService.getCategoryBreakdown(userId, type, y, m));
+    return ResponseEntity.ok(transactionService.getCategoryBreakdown(userId, type, year, month));
   }
 }

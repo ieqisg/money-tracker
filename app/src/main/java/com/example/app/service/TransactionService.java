@@ -21,8 +21,8 @@ public class TransactionService {
     transactionRepository.addTransaction(userId, transaction);
   }
 
-  public List<TransactionRecord> getTransaction(UUID userId, int limit, int offset) {
-    return transactionRepository.getTransaction(userId, limit, offset);
+  public List<TransactionRecord> getTransaction(UUID userId, int year, int month, int limit, int offset) {
+    return transactionRepository.getTransaction(userId, year, month, limit, offset);
   }
 
   public SummaryRecord getSummary(UUID userId, int year, int month) {

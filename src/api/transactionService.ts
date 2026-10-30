@@ -22,11 +22,13 @@ class TransactionService {
   }
 
   async getTransaction(
+    year: number,
+    month: number,
     limit: number,
-    offset: number
+    offset: number,
   ): Promise<transactionsFormType[]> {
     const response = await fetch(
-      `${API_URL}/api/transaction?limit=${limit}&offset=${offset}`,
+      `${API_URL}/api/transaction?year=${year}&month=${month}&limit=${limit}&offset=${offset}`,
       {
         method: 'GET',
         credentials: 'include',

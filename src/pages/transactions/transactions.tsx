@@ -15,10 +15,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import type { transactionsFormType } from "@/types/transactionType";
 import { formatNumber } from "@/hooks/profileValidator";
 import { useState } from "react";
+import type { DateType } from "@/types/DateType";
 
 const LIMIT = 10;
 
-export default function Transactions() {
+export default function Transactions({ month, year }: DateType) {
   const [showAll, setShowAll] = useState(false);
 
   const {
@@ -30,9 +31,9 @@ export default function Transactions() {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["transaction"],
+    queryKey: ["transaction", year, month],
     queryFn: ({ pageParam }) =>
-      transactionService.getTransaction(LIMIT, pageParam),
+      transactionService.getTransaction(year, month, LIMIT, pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.length < LIMIT ? undefined : allPages.length * LIMIT,
