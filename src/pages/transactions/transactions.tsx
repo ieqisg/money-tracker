@@ -37,6 +37,7 @@ export default function Transactions({ month, year }: DateType) {
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.length < LIMIT ? undefined : allPages.length * LIMIT,
+    staleTime: Infinity
   });
 
   const allTransactions: transactionsFormType[] = data?.pages.flat() ?? [];
