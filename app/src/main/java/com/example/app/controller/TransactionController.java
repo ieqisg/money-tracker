@@ -78,8 +78,8 @@ public class TransactionController {
   public ResponseEntity<List<CategoryTotalRecord>> breakdown(
       Authentication authentication,
       @RequestParam TransactionTypeEnum type,
-      @RequestParam(required = true) int year,
-      @RequestParam(required = true) int month) {
+      @RequestParam(required = true) Integer year,
+      @RequestParam(required = true) Integer month) {
 
     UUID userId = UUID.fromString(authentication.getName());
 

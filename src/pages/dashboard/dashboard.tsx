@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-import Transactions from "../transactions/transactions";
+import TransactionsTable from "../transactions/transactionsTable";
 import { MoneyChart } from "./moneyChart";
 import { useAuth } from "@/context/authContext";
 import MoneyStats from "./moneyStats";
@@ -76,7 +76,7 @@ export default function Dashboard() {
         <p className="text-xs text-muted-foreground">Keep track of every income and expense in one place</p>
       </div>
       <hr className="my-4 border border-gray-400" />
-      <Transactions year={selectedYear} month={selectedMonth + 1} />
+      <TransactionsTable year={selectedYear} month={selectedMonth + 1} />
     </div>
   )
 }
