@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 import os
 
-from security.jwtService import validate_jwt
+from service.jwtService import validate_jwt
 
 load_dotenv()
 router = APIRouter()

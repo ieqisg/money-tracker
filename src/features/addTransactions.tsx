@@ -11,7 +11,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Camera, Plus } from "lucide-react";
 import { formatNumber } from "@/hooks/profileValidator";
 import transactionService from "@/api/transactionService";
 import {
@@ -21,8 +21,10 @@ import {
 import { validateTransaction } from "@/hooks/transactionValidator";
 import toast from "react-hot-toast"
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React from "react";
 
 export default function AddTransactions() {
+
   const queryClient = useQueryClient()
   const [formData, setFormData] = useState<transactionsFormType>({
     transactionType: "INCOME",
@@ -252,6 +254,10 @@ export default function AddTransactions() {
                     />
                   </label>
                 </div>
+              </div>
+              <div className="flex justify-end">
+
+                <Button type="button" variant="outline">Scan a receipt <Camera /></Button>
               </div>
               {/* Validation Errors */}
               {errors.length > 0 && (

@@ -20,14 +20,22 @@ services:
       context: ./ocr-service
       dockerfile: Dockerfile
     command: uvicorn main:app --host 0.0.0.0 --port 8001 --reload
+    runtime: nvidia
+    gpus: all
     environment:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
     ports:
       - "127.0.0.1:8001:8001"
     volumes:
       - ./ocr-service:/app
-      - ocr-models:/root/.paddlex
+      - ./ocr-training/PaddleOCR/output/receipt_ser_v2/iter_epoch_15:/opt/PaddleOCR/output/receipt_ser_v2/iter_epoch_15:ro
+      - ./ocr-training/PaddleOCR/configs/kie/vi_layoutxlm/ser_receipts_v2.yml:/opt/PaddleOCR/configs/kie/vi_layoutxlm/ser_receipts_v2.yml:ro
+      - ./ocr-training/PaddleOCR/train_data/receipts/class_list.txt:/opt/PaddleOCR/train_data/receipts/class_list.txt:ro
+      - ocr-models:/root/.paddleocr
+    shm_size: "1gb"
 
   app:
     build:

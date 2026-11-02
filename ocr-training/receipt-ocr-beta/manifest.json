@@ -1,0 +1,17 @@
+{
+  "name": "money-tracker-receipt-ocr",
+  "version": "0.3.0-beta",
+  "model": "VI-LayoutXLM",
+  "checkpoint": "checkpoints/receipt-ser-v2/iter_epoch_15",
+  "config": "checkpoints/receipt-ser-v2/ser_receipts_v2.yml",
+  "class_list": "checkpoints/receipt-ser-v2/class_list.txt",
+  "device": "cpu",
+  "labels": [
+    "MERCHANT",
+    "DATE",
+    "TIME",
+    "TOTAL"
+  ],
+  "postprocessor": "hybrid_receipt_v3.py",
+  "requires_user_review": true
+}

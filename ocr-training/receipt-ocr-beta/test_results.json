@@ -1,0 +1,44 @@
+[
+  {
+    "merchant": "Marshalls",
+    "date": null,
+    "time": null,
+    "total": 95.29,
+    "sources": {
+      "total": "adjacent_total",
+      "merchant": "header_fallback"
+    },
+    "confidence": {
+      "total": "medium",
+      "merchant": "low"
+    },
+    "warnings": [
+      "missing_date",
+      "missing_time",
+      "merchant_requires_review"
+    ],
+    "image": "test_receipt (1).jpeg"
+  },
+  {
+    "merchant": "THE BISTRO",
+    "date": "2026-03-18",
+    "time": "10:52:41PM",
+    "total": 42.07,
+    "sources": {
+      "date": "ser",
+      "total": "adjacent_total",
+      "merchant": "header_fallback",
+      "time": "ser"
+    },
+    "confidence": {
+      "date": "high",
+      "total": "medium",
+      "merchant": "low",
+      "time": "medium"
+    },
+    "warnings": [
+      "merchant_requires_review"
+    ],
+    "image": "test_receipt2.png"
+  }
+]
